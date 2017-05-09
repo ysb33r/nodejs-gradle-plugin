@@ -1,0 +1,7 @@
+= NodeJS plugin for Gradle
+
+== Raison d'Etre
+
+I wrote this because I got fed up with what was available to integrate NodeJs & NPM with Gradle
+
+

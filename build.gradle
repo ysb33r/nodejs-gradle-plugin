@@ -1,0 +1,22 @@
+plugins {
+  id 'groovy'
+  id 'java-library'
+}
+
+version = '0.1-SNAPHOT'
+group = 'org.ysb33r.gradle'
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+  implementation localGroovy()
+  api gradleApi()
+  // api GROLIFANT
+  // testCompile SPOCK
+}
+
+
+
+
