@@ -1,16 +1,26 @@
 plugins {
-  id 'groovy'
-  id 'org.ysb33r.gradletest' version '1.0-beta7'
+    id 'groovy'
+    id 'org.ysb33r.gradletest' version '1.0-beta7'
+    id 'org.asciidoctor.convert' version '1.5.3'
+    id 'com.gradle.plugin-publish' version '0.9.4'
+    id 'com.github.hierynomus.license' version '0.14.0'
 }
 
-apply from : 'gradle/download-tests.gradle'
 
 version = '0.1-SNAPHOT'
 group = 'org.ysb33r.gradle'
 
+ext {
+    spockGroovyVer = GroovySystem.version.replaceAll(/\.\d+$/,'')
+    notSnaphsot = { !version.endsWith('-SNAPSHOT') }
+}
+
+apply from : 'gradle/download-tests.gradle'
+apply from : 'gradle/build-documentation.gradle'
+apply from : 'gradle/publish-plugins.gradle'
+
 repositories {
     jcenter()
-//    mavenLocal()
 
     ivy {
         name 'Downloader for NodeJS distributions under test'
@@ -22,9 +32,6 @@ repositories {
     }
 }
 
-ext {
-    spockGroovyVer = GroovySystem.version.replaceAll(/\.\d+$/,'')
-}
 
 dependencies {
     compile localGroovy()
@@ -38,8 +45,32 @@ dependencies {
 }
 
 gradleTest {
+    // tag::gradleTestVersions[]
     versions '2.5', '2.14', '3.0', '3.5'
+    // end::gradleTestVersions[]
+}
+
+license {
+    header = rootProject.file('config/HEADER')
+    strictCheck = true
+    ignoreFailures = false
+    mapping {
+        groovy ='DOUBLESLASH_STYLE'
+    }
+    ext.year = '2017'
+    excludes([
+            '**/*.adoc', '**/*.md',
+            '**/*.properties',
+            '**/*CompatibilitySpec.groovy'
+    ])
 }
 
 
+task release {
+    group "Release"
+    description "Lifecycle task for release a new version"
+    onlyIf notSnapshot
+    onlyIf {!gradle.startParameter.offline}
+    dependsOn build, publishPlugins, installDocs
+}
 
