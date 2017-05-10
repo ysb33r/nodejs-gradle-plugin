@@ -1,0 +1,13 @@
+== Bootstrapping
+
+The library is available from the plugin portal. Add the appropriate plugin identifiers to your `build.gradle` file depending onthe type of functionality you require.
+
+.build.gradle
+[source,groovy,subs=attributes]
+----
+plugins {
+  id 'org.ysb33r.nodejs.base' version '{revnumber}'
+  id 'org.ysb33r.nodejs' version '{revnumber}'
+}
+----
+

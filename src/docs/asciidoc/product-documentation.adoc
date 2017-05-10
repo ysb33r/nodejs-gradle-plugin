@@ -1,0 +1,12 @@
+= NodeJS Gradle Plugin
+:author: Schalk W. Cronjé
+:doctype: book
+:toc: right
+:icons: font
+:source-highlighter: coderay
+:sourcedir: {includetopdir}/src/main/groovy/org/ysb33r/gradle/nodejs
+:testdir: {includetopdir}/src/test/groovy/org/ysb33r/gradle/nodejs
+:groovydoc: ../api/org/ysb33r/gradle/nodejs
+
+//include::parts/bootstrap.adoc[]
+

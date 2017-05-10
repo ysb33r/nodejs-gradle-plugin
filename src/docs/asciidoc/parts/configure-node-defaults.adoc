@@ -1,0 +1,16 @@
+== Configure Node,js Defaults
+
+THe Node.js distribution can be supplied in three possible ways:
+
+.build.gradle
+[source,groovy]
+----
+include::{testdir}/NodeJsExtensionSpec.groovy[tags=configure-with-version]
+
+include::{testdir}/NodeJsExtensionSpec.groovy[tags=configure-with-path]
+
+include::{testdir}/NodeJsExtensionSpec.groovy[tags=configure-with-search-path]
+----
+<1>Supply a version and Gradle will take care of downloading the distribution and caching it. It will then used the cached version for running `node`. This is the preferred way of running Node.js with Gradle as it offers better control over reproducible builds.
+<2> Supply a path to the `node` executable. This works for people that have Node.js installed in standard locations.
+<3> Tell Gradle to look for `node` in the system search path.
