@@ -1,0 +1,19 @@
+== Configure NPM Defaults
+
+The location of `npm` can be supplied in four possible ways:
+
+.build.gradle
+[source,groovy]
+----
+include::{testdir}/NpmExtensionSpec.groovy[tags=configure-with-version,indent=0]
+
+include::{testdir}/NpmExtensionSpec.groovy[tags=configure-with-path,indent=0]
+
+include::{testdir}/NpmExtensionSpec.groovy[tags=configure-with-search-path,indent=0]
+
+include::{testdir}/NpmExtensionSpec.groovy[tags=configure-with-default,indent=0]
+----
+<1> Supply a version and Gradle will take care of downloading the specific version of `npm` caching it. It will then run the cached version. This is an option for people who want to run a version of `npm` other than the one that ships with Node.js.
+<2> Supply a path to the `npm` executable. This works for people that have `npm` installed in predefined locations.
+<3> Tell Gradle to look for `npm` (or `npm.cmd`) in the system search path.
+<4> Use the version on `npm` that ships with the default version of Node.js. This is also the default operation if nothing is configured.
