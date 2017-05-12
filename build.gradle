@@ -28,6 +28,15 @@ repositories {
             artifact 'v[revision]/[artifact]-v[revision]-[classifier].[ext]'
         }
     }
+
+    ivy {
+        name 'Downloader for NPM packages under test'
+        url 'https://registry.npmjs.org'
+        resolve.dynamicMode = false
+        layout 'pattern', {
+            artifact '[artifact]/-/[artifact]-[revision].[ext]'
+        }
+    }
 }
 
 
@@ -40,6 +49,7 @@ dependencies {
         exclude module : 'groovy-all'
     }
     testCompile gradleTestKit()
+
 }
 
 gradleTest {

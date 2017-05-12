@@ -4,6 +4,7 @@
 ext {
     currentOS =  org.gradle.internal.os.OperatingSystem.current()
     nodejsTestCacheDir = "${buildDir}/nodejs-binaries"
+    npmTestCacheDir = "${nodejsTestCacheDir}/npm"
 
     // Always list the primary test version as the first one in this list.
     nodejsTestVersions = [ '7.10.0','6.10.3' ]
@@ -21,6 +22,8 @@ configurations {
     nodejsTestVersions.each { ver ->
         create "downloadTestCache${ver}"
     }
+
+    npmPackages
 
 }
 
@@ -50,6 +53,8 @@ dependencies {
 
         add "downloadTestCache${ver}", ":node:${ver}:${nodejsArch}@${nodejsExt}"
     }
+
+    npmPackages 'npm:stringz:0.2.0@tgz'
 }
 
 sourceSets {
@@ -72,22 +77,24 @@ task cacheNodejsBinaries( type : Copy ) {
     }
 }
 
+task cacheNpmPackages( type : Copy ) {
+    into npmTestCacheDir
+    from configurations.npmPackages
+}
+
 task downloadTest(type: Test, dependsOn: jar) {
     testClassesDir = sourceSets.downloadTest.output.classesDir
     classpath = sourceSets.downloadTest.runtimeClasspath
     reports.html.destination = file("${reporting.baseDir}/downloadTest")
 
     systemProperties NODEJS_CACHE_DIR  : cacheNodejsBinaries.destinationDir.absolutePath
+    systemProperties NPM_CACHE_DIR     : cacheNpmPackages.destinationDir.absolutePath
     systemProperties NODEJS_VERSION    : nodejsTestVersions[0]
-    systemProperties 'TESTFSREADROOT'  : file("${projectDir}/src/downloadTest/resources").absolutePath
-    systemProperties 'TESTFSWRITEROOT' : file("${buildDir}/tmp/downloadTest").absolutePath
-    systemProperties 'DOXY_TEMPLATE'   : file("${projectDir}/src/main/resources/doxyfile-template.dox").absolutePath
 
     mustRunAfter test
-    dependsOn cacheNodejsBinaries
+    dependsOn cacheNodejsBinaries, cacheNpmPackages
 }
 
 
 check.dependsOn downloadTest
-
 
