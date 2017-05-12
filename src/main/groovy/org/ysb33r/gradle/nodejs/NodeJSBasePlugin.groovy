@@ -12,6 +12,7 @@ import org.gradle.api.Project
 @CompileStatic
 class NodeJSBasePlugin implements Plugin<Project> {
     void apply(Project project) {
-
+        project.extensions.create(NodeJSExtension.NAME,NodeJSExtension,project)
+        project.extensions.create(NpmExtension.NAME,NpmExtension,project)
     }
 }

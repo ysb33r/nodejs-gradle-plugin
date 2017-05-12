@@ -10,3 +10,4 @@
 
 //include::parts/bootstrap.adoc[]
 
+include::parts/configure-node-defaults.adoc[]

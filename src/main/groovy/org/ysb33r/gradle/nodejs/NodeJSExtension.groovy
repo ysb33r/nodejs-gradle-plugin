@@ -1,8 +1,11 @@
 package org.ysb33r.gradle.nodejs
 
 import groovy.transform.CompileStatic
+import groovy.transform.PackageScope
+import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.ysb33r.gradle.nodejs.impl.NodeJSDistributionResolver
+import org.ysb33r.gradle.olifant.OperatingSystem
 
 /** Configure project defaults for Node.js.
  *
@@ -10,6 +13,8 @@ import org.ysb33r.gradle.nodejs.impl.NodeJSDistributionResolver
  */
 @CompileStatic
 class NodeJSExtension {
+
+    static final String NAME = 'nodejs'
 
     /** Constructs a new exception which is attahced to the provided project.
      *
@@ -37,16 +42,38 @@ class NodeJSExtension {
      * @param opts Map taken {@code version} or {@code path} as key.
      */
     void executable( final Map<String,Object> opts ) {
-        NodeJSDistributionResolver.createFromOptions(opts)
+        nodeResolver = NodeJSDistributionResolver.createFromOptions(opts)
     }
 
-    /** Resolves a Node.js distribution
+    /** Resolves a path to a {@code node} executable.
      *
      * @return Returns the path to the located {@code node} executable.
      * @throw {@code GradleException} if executable was not configured.
      */
-    ResolvedDistribution getResolvedDistribution() {
+    ResolvedExecutable getResolvedNodeExecutable() {
+        if(nodeResolver == null) {
+            throw new GradleException('''Node.js executable was not configured. Call 'executable' first to set a way of resolving the distribution''')
+        }
         nodeResolver.resolve(project)
+    }
+
+    /** Resolves a path to a {@code npm} executable that is associated with the configured .
+     *
+     * @return Returns the path to the located {@code npm} executable.
+     * @throw {@code GradleException} if executable was not configured.
+     */
+    ResolvedExecutable getResolvedNpmExecutable() {
+        new ResolvedExecutable() {
+            @Override
+            File getExecutable() {
+                File root = getResolvedNodeExecutable().getExecutable().getParentFile()
+                if(OperatingSystem.current().windows) {
+                    new File(root,'npm.cmd')
+                } else {
+                    new File(root,'npm')
+                }
+            }
+        }
     }
 
     /** Use this to configure a system path search for Node
@@ -58,7 +85,7 @@ class NodeJSExtension {
     }
 
     private Project project
-    private NodeJSDistributionResolver nodeResolver
+    @PackageScope NodeJSDistributionResolver nodeResolver
 
 
 

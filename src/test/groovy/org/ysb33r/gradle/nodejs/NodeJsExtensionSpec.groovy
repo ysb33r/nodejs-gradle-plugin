@@ -26,7 +26,7 @@ class NodeJsExtensionSpec extends Specification {
         }
 
         then:
-        project.nodejs.resolvedDistribution != null
+        project.nodejs.getResolvedNodeExecutable != null
     }
 
     def 'Configure NodeJS executable using a path'() {
@@ -44,7 +44,7 @@ class NodeJsExtensionSpec extends Specification {
         }
 
         then:
-        project.nodejs.resolvedDistribution != null
+        project.nodejs.getResolvedNodeExecutable != null
     }
 
     def 'Configure NodeJS executable using a search path'() {
@@ -62,16 +62,16 @@ class NodeJsExtensionSpec extends Specification {
         }
 
         then:
-        project.nodejs.resolvedDistribution != null
+        project.nodejs.nodeResolver != null
     }
 
     def 'NodeJS executable must be configured'() {
 
         when: 'No version is configured'
-        project.apply NodeJSBasePlugin
+        project.apply plugin : NodeJSBasePlugin
 
         and: 'The executable path is requested'
-        project.nodejs.getExecutable()
+        project.nodejs.getResolvedNodeExecutable
 
         then: 'An exception is raised'
         thrown(GradleException)

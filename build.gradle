@@ -4,20 +4,18 @@ plugins {
     id 'org.asciidoctor.convert' version '1.5.3'
     id 'com.gradle.plugin-publish' version '0.9.4'
     id 'com.github.hierynomus.license' version '0.14.0'
+    id 'net.ossindex.audit' version '0.1.1'
 }
-
 
 version = '0.1-SNAPHOT'
 group = 'org.ysb33r.gradle'
 
 ext {
     spockGroovyVer = GroovySystem.version.replaceAll(/\.\d+$/,'')
-    notSnaphsot = { !version.endsWith('-SNAPSHOT') }
+    notSnapshot = { !version.endsWith('-SNAPSHOT') }
 }
 
 apply from : 'gradle/download-tests.gradle'
-apply from : 'gradle/build-documentation.gradle'
-apply from : 'gradle/publish-plugins.gradle'
 
 repositories {
     jcenter()
@@ -65,6 +63,10 @@ license {
     ])
 }
 
+task landingPage( type :  org.asciidoctor.gradle.AsciidoctorTask )
+apply from : 'gradle/build-documentation.gradle'
+
+apply from : 'gradle/publish-plugins.gradle'
 
 task release {
     group "Release"

@@ -7,11 +7,11 @@ import groovy.transform.CompileStatic
  * @since 0.1
  */
 @CompileStatic
-interface ResolvedDistribution {
+interface ResolvedExecutable {
 
     /** Location of the {@code node} executable.
      *
      * @return Full path to {@code node} or @{code node.exe}
      */
-    File getNodeExecutable()
+    File getExecutable()
 }

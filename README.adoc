@@ -5,16 +5,11 @@
 I wrote this because I got fed up with what was available to integrate NodeJs & NPM with Gradle
 
 
-== Global NodeJS Configuration
+== Usage Documentation
 
-[source,groovy]
-----
-nodeJS {
-  version = '7.10.0' // <1>
-}
-----
-<1> Set verion of NodeJS to be used in this project (Can still be overridden in certain task types).
+Please see the https://ysb33r.github.io/gradle-nodejs-plugin[plugin & API documentation].
 
+////
 == NodeExec
 
 A script execution task mostly following the same conventions as [Exec], [JavaExec] and [JRubyExec]
@@ -65,3 +60,4 @@ dependencies {
   npm packagejson('path/to/package.json')
 }
 ----
+////

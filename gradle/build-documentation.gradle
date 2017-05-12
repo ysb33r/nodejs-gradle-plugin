@@ -1,4 +1,3 @@
-import org.asciidoctor.gradle.AsciidoctorTask
 
 ext {
     websitePublishFolder = "${projectDir}/website"
@@ -53,8 +52,8 @@ task generateDocVersionsTable( type : Copy ) {
 }
 
 
-task landingPage( type : AsciidoctorTask ) {
-
+//task landingPage( type : AsciidoctorTask ) {
+landingPage {
     dependsOn generateDocVersionsTable
     mustRunAfter validateDocVersions
 
