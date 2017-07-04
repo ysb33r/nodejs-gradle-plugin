@@ -1,3 +1,17 @@
+//
+// ============================================================================
+// (C) Copyright Schalk W. Cronje 2017
+//
+// This software is licensed under the Apache License 2.0
+// See http://www.apache.org/licenses/LICENSE-2.0 for license details
+//
+// Unless required by applicable law or agreed to in writing, software distributed under the License is
+// distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and limitations under the License.
+//
+// ============================================================================
+//
+
 package org.ysb33r.gradle.nodejs
 
 import groovy.transform.CompileStatic
@@ -6,6 +20,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.ysb33r.gradle.nodejs.impl.NodeJSDistributionResolver
 import org.ysb33r.gradle.olifant.OperatingSystem
+import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 
 /** Configure project defaults for Node.js.
  *
@@ -22,6 +37,7 @@ class NodeJSExtension {
      */
     NodeJSExtension(Project project) {
         this.project = project
+        this.nodeResolver = new NodeJSDistributionResolver(project)
     }
 
     /** Sets node executable.
@@ -42,7 +58,7 @@ class NodeJSExtension {
      * @param opts Map taken {@code version} or {@code path} as key.
      */
     void executable( final Map<String,Object> opts ) {
-        nodeResolver = NodeJSDistributionResolver.createFromOptions(opts)
+        this.nodeResolver.executable(opts)
     }
 
     /** Resolves a path to a {@code node} executable.
@@ -51,10 +67,11 @@ class NodeJSExtension {
      * @throw {@code GradleException} if executable was not configured.
      */
     ResolvedExecutable getResolvedNodeExecutable() {
-        if(nodeResolver == null) {
-            throw new GradleException('''Node.js executable was not configured. Call 'executable' first to set a way of resolving the distribution''')
+        ResolvedExecutable ret = nodeResolver.getResolvedExecutable()
+
+        if(ret == null) {
+            throw new GradleException('Node.js executable has not been configured.')
         }
-        nodeResolver.resolve(project)
     }
 
     /** Resolves a path to a {@code npm} executable that is associated with the configured .
@@ -84,8 +101,8 @@ class NodeJSExtension {
         NodeJSDistributionResolver.SEARCH_PATH
     }
 
-    private Project project
-    @PackageScope NodeJSDistributionResolver nodeResolver
+    private final Project project
+    @PackageScope final NodeJSDistributionResolver nodeResolver
 
 
 

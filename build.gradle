@@ -20,6 +20,10 @@ apply from : 'gradle/download-tests.gradle'
 repositories {
     jcenter()
 
+//    if(!notSnapshot()) {
+        mavenLocal()
+//    }
+
     ivy {
         name 'Downloader for NodeJS distributions under test'
         url 'https://nodejs.org/dist'
@@ -43,7 +47,7 @@ repositories {
 dependencies {
     compile localGroovy()
     compile gradleApi()
-    compile 'org.ysb33r.gradle:grolifant:0.2'
+    compile 'org.ysb33r.gradle:grolifant:0.3-SNAPSHOT'
 
     testCompile ("org.spockframework:spock-core:1.0-groovy-${spockGroovyVer}") {
         exclude module : 'groovy-all'
@@ -54,7 +58,7 @@ dependencies {
 
 gradleTest {
     // tag::gradleTestVersions[]
-    versions '2.5', '2.14', '3.0', '3.5'
+    versions '2.5', '2.14', '3.0', '3.5', '4.0'
     // end::gradleTestVersions[]
 }
 

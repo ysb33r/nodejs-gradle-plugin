@@ -1,3 +1,17 @@
+//
+// ============================================================================
+// (C) Copyright Schalk W. Cronje 2017
+//
+// This software is licensed under the Apache License 2.0
+// See http://www.apache.org/licenses/LICENSE-2.0 for license details
+//
+// Unless required by applicable law or agreed to in writing, software distributed under the License is
+// distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and limitations under the License.
+//
+// ============================================================================
+//
+
 package org.ysb33r.gradle.nodejs.impl
 
 import groovy.transform.CompileStatic
@@ -6,55 +20,45 @@ import org.gradle.api.Project
 import org.ysb33r.gradle.nodejs.ResolvedExecutable
 import org.ysb33r.gradle.olifant.OperatingSystem
 import org.ysb33r.gradle.olifant.StringUtils
+import org.ysb33r.gradle.olifant.exec.AbstractToolExecSpec
+import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
+import org.ysb33r.gradle.olifant.exec.ResolvedExecutableFactory
 
 /** Provides a way of resolving a Node.js distribution
  *
  * @since 0.1
  */
 @CompileStatic
-abstract class NodeJSDistributionResolver {
+class NodeJSDistributionResolver extends AbstractToolExecSpec {
 
     static final Map<String,Object> SEARCH_PATH = [ search : 'node' ] as Map<String,Object>
 
-    /** Returns the path to the resolved {@code node} executable.
+    /** Construct class and attach it to specific project.
      *
-     * @return A resolved file object
+     * @param project Project this exec spec is attached.
      */
-    abstract ResolvedExecutable resolve(Project project)
 
-    static NodeJSDistributionResolver createFromOptions(final Map<String,?> opts) {
-        Number keyCount = opts.keySet().count { String it ->
-           it == 'path' || it == 'search' || it == 'version'
-        }
-
-        if(keyCount>1) {
-            throw new GradleException('''Combining use of 'path', 'search' and 'version' is not valid.''')
-        }
-        if(opts['version']) {
-            return new Version(opts['version'])
-        }
-        if(opts['path']) {
-            return new Path(opts['path'])
-        }
-        if(opts['search']) {
-            return new SearchPath(opts['search'])
-        }
-
-        throw new GradleException('''Need one of 'path', 'search' and 'version'.''')
+    NodeJSDistributionResolver(Project project) {
+        super(project)
+        registerExecutableKeyActions('version',new Version(project))
     }
 
+    private static class Version implements ResolvedExecutableFactory {
 
-    protected static class Version extends NodeJSDistributionResolver {
-
-        Version(def lazyVersion) {
-            this.lazyVersion = lazyVersion
+        Version(Project project) {
+            this.project = project
         }
 
-        ResolvedExecutable resolve(Project project) {
-            Downloader dnl = new Downloader(StringUtils.stringize(lazyVersion),project)
-
+        /** Creates {@link ResolvedExecutable} from a NodeJS version.
+         *
+         * @param options Ignored
+         * @param from Anything conertible to a string that contains a valid Node.JS version.
+         * @return The resolved executable.
+         */
+        @Override
+        ResolvedExecutable build(Map<String, Object> options, Object from) {
+            Downloader dnl = new Downloader(StringUtils.stringize(from),project)
             return new ResolvedExecutable() {
-
                 @Override
                 File getExecutable() {
                     dnl.getNodeExecutablePath()
@@ -62,51 +66,7 @@ abstract class NodeJSDistributionResolver {
             }
         }
 
-        private Object lazyVersion
+        private final Project project
     }
 
-    protected static class Path extends NodeJSDistributionResolver {
-
-        Path(def lazyPath) {
-            this.lazyPath = lazyPath
-        }
-
-        ResolvedExecutable resolve(Project project) {
-            File resolvedPath = project.file(lazyPath)
-
-            return new ResolvedExecutable() {
-                @Override
-                File getExecutable() {
-                    if(resolvedPath.exists()) {
-                        return resolvedPath
-                    } else {
-                        throw new GradleException("${resolvedPath} does not exist.")
-                    }
-                }
-            }
-        }
-
-        private Object lazyPath
-
-    }
-
-    protected static class SearchPath extends NodeJSDistributionResolver {
-
-        SearchPath(def lazyPath) {
-            this.lazyPath = lazyPath
-        }
-
-        ResolvedExecutable resolve(Project project) {
-
-            return new ResolvedExecutable() {
-                @Override
-                File getExecutable() {
-                    org.ysb33r.gradle.nodejs.impl.SearchPath.forExecutable(lazyPath)
-                }
-            }
-        }
-
-        private Object lazyPath
-
-    }
 }

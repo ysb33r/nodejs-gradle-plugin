@@ -1,3 +1,17 @@
+//
+// ============================================================================
+// (C) Copyright Schalk W. Cronje 2017
+//
+// This software is licensed under the Apache License 2.0
+// See http://www.apache.org/licenses/LICENSE-2.0 for license details
+//
+// Unless required by applicable law or agreed to in writing, software distributed under the License is
+// distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and limitations under the License.
+//
+// ============================================================================
+//
+
 package org.ysb33r.gradle.nodejs
 
 import groovy.transform.CompileStatic
@@ -5,6 +19,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.ysb33r.gradle.nodejs.impl.NodeJSDistributionResolver
 import org.ysb33r.gradle.nodejs.impl.NpmResolver
+import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 
 /** Set up global config or task-based config for NPM.
  *
@@ -21,7 +36,8 @@ class NpmExtension {
      */
     NpmExtension(Project project) {
         this.project = project
-        this.npmResolver = NpmResolver.createFromOptions(defaultNodejs())
+        this.npmResolver = new NpmResolver(project)
+        npmResolver.executable(this.defaultNodejs())
     }
 
     /** Adds the extension to a {@link NpmTask} task.
@@ -30,6 +46,8 @@ class NpmExtension {
      */
     NpmExtension(NpmTask task) {
         this.task = task
+        this.npmResolver = new NpmResolver(task.project)
+        npmResolver.executable(this.defaultNodejs())
     }
 
     /** Sets npm executable.
@@ -55,7 +73,7 @@ class NpmExtension {
      * @param opts Map taking one of the keys or methods mentioned above.
      */
     void executable(final Map<String, Object> opts) {
-        npmResolver = NpmResolver.createFromOptions(opts)
+        npmResolver.executable(opts)
     }
 
     /** Resolves a path to a {@code node} executable.
@@ -64,10 +82,10 @@ class NpmExtension {
      * @throw {@code GradleException} if executable was not configured.
      */
     ResolvedExecutable getResolvedNpmExecutable() {
-        npmResolver.resolve(project)
+        npmResolver.getResolvedExecutable()
     }
 
-    /** Sets NPM to be resolved from the default node.js distributuion associated with this project.
+    /** Sets NPM to be resolved from the default node.js distribution associated with this project.
      *
      * @return Something that is suitable to be passed to @{@link #executable}
      */
