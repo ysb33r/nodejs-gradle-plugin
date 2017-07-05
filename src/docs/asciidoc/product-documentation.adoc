@@ -13,3 +13,5 @@
 include::parts/configure-node-defaults.adoc[]
 
 include::parts/configure-npm-defaults.adoc[]
+
+include::parts/npmtask.adoc[]

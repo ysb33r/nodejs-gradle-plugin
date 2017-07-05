@@ -93,6 +93,8 @@ task downloadTest(type: Test, dependsOn: jar) {
 
     mustRunAfter test
     dependsOn cacheNodejsBinaries, cacheNpmPackages
+
+    enabled = !project.gradle.startParameter.isOffline()
 }
 
 

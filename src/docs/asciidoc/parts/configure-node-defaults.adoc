@@ -1,3 +1,4 @@
+[[node-defaults]]
 == Configure Node.js Defaults
 
 The Node.js distribution can be supplied in three possible ways:

@@ -52,7 +52,7 @@ class NodeJSDistributionResolver extends AbstractToolExecSpec {
         /** Creates {@link ResolvedExecutable} from a NodeJS version.
          *
          * @param options Ignored
-         * @param from Anything conertible to a string that contains a valid Node.JS version.
+         * @param from Anything convertible to a string that contains a valid Node.JS version.
          * @return The resolved executable.
          */
         @Override

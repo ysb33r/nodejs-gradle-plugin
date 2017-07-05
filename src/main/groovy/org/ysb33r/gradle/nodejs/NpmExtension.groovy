@@ -17,7 +17,7 @@ package org.ysb33r.gradle.nodejs
 import groovy.transform.CompileStatic
 import org.gradle.api.GradleException
 import org.gradle.api.Project
-import org.ysb33r.gradle.nodejs.impl.NodeJSDistributionResolver
+import org.gradle.api.Task
 import org.ysb33r.gradle.nodejs.impl.NpmResolver
 import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 
@@ -37,17 +37,20 @@ class NpmExtension {
     NpmExtension(Project project) {
         this.project = project
         this.npmResolver = new NpmResolver(project)
-        npmResolver.executable(this.defaultNodejs())
+        this.npmResolver.executable(this.defaultNodejs())
+        this.localConfig = new File(project.rootProject.projectDir,'npmrc')
+        this.globalConfig = new File(project.gradle.gradleUserHomeDir,'npmrc')
     }
 
     /** Adds the extension to a {@link NpmTask} task.
+     *
+     * <p> Links the executable resolving to the global instance, but allows
+     * it to be overriden on a per-task basis.
      *
      * @param task Task to be extended.
      */
     NpmExtension(NpmTask task) {
         this.task = task
-        this.npmResolver = new NpmResolver(task.project)
-        npmResolver.executable(this.defaultNodejs())
     }
 
     /** Sets npm executable.
@@ -68,21 +71,35 @@ class NpmExtension {
      *   executable defaultNodejs()
      * </code>
      *
-     * If nothing is set the default will be {@pcde defaultNodejs ( )}
+     * If nothing is set the default will be {@code defaultNodejs ( )} for a project extension. In the case of
+     * a task extension it will default to the project extension's settings.
      *
      * @param opts Map taking one of the keys or methods mentioned above.
      */
     void executable(final Map<String, Object> opts) {
+        if(npmResolver == null) {
+            this.npmResolver = new NpmResolver(project)
+        }
         npmResolver.executable(opts)
     }
 
     /** Resolves a path to a {@code node} executable.
      *
+     * <p> If the extension is linked to a task and not the location not configured,
+     * a lookup will be performed on the project extension of the same name,
+     *
      * @return Returns the path to the located {@code node} executable.
-     * @throw {@code GradleException} if executable was not configured.
+     * @throw {@code GradleException} if location was not configured.
      */
-    ResolvedExecutable getResolvedNpmExecutable() {
-        npmResolver.getResolvedExecutable()
+    ResolvedExecutable getResolvedNpmCliJs() {
+        if(task) {
+            npmResolver ? npmResolver.getResolvedExecutable() : ((NpmExtension)getProject().extensions.getByName(NAME)).getResolvedNpmCliJs()
+        } else {
+            if(npmResolver == null) {
+                throw new GradleException('Method for finding npm-cli.js is not configured')
+            }
+            npmResolver.getResolvedExecutable()
+        }
     }
 
     /** Sets NPM to be resolved from the default node.js distribution associated with this project.
@@ -101,6 +118,68 @@ class NpmExtension {
         NpmResolver.SEARCH_PATH
     }
 
+    /** Location & name of global NPM config file.
+     *
+     * When this extension is attached to a project, the default location is set to
+     * {@code "${project.gradle.gradleUserHomeDir}/npmrc"}
+     *
+     * @return {@link java.io.File} object pointing to global NPM config
+     */
+    File getGlobalConfig() {
+        if(task) {
+            this.globalConfig ? project.file(this.globalConfig) : ((NpmExtension)getProject().extensions.getByName(NAME)).getGlobalConfig()
+        } else {
+            project.file(this.globalConfig)
+        }
+    }
+
+    /** Set global config file.
+     *
+     * @param path Anything that can be converted using {@code project.file}.
+     */
+    void setGlobalConfig(Object path) {
+        this.globalConfig = path
+    }
+
+    /** Set global config file.
+     *
+     * @param path Anything that can be converted using {@code project.file}.
+     */
+    void globalConfig(Object path) {
+        setGlobalConfig(path)
+    }
+
+    /** Location & name of local NPM config file.
+     *
+     * When this extension is attached to a project, the default location is set to
+     * {@code "${project.rootProject.projectDir}/npmrc"}
+     *
+     * @return {@link java.io.File} oject pointing to local NPM config
+     */
+    File getLocalConfig() {
+        if(task) {
+            this.localConfig ? project.file(this.localConfig) : ((NpmExtension)getProject().extensions.getByName(NAME)).getLocalConfig()
+        } else {
+            project.file(this.localConfig)
+        }
+    }
+
+    /** Set local config file.
+     *
+     * @param path Anything that can be converted using {@code project.file}.
+     */
+    void setLocalConfig(Object path) {
+        this.localConfig = path
+    }
+
+    /** Set local config file.
+     *
+     * @param path Anything that can be converted using {@code project.file}.
+     */
+    void localConfig(Object path) {
+        setLocalConfig(path)
+    }
+
     /** Obtains the project this is directly or indirectly attached to.
      *
      * @return Project instance. If this extension was attached to a task, the associated project for that task will be returned.
@@ -110,6 +189,8 @@ class NpmExtension {
     }
 
     private Project project
-    private NpmTask task
+    private Task task
     private NpmResolver npmResolver
+    private Object localConfig
+    private Object globalConfig
 }

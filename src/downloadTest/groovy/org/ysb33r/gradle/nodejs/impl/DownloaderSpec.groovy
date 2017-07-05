@@ -19,11 +19,8 @@ import org.gradle.process.ExecResult
 import org.gradle.testfixtures.ProjectBuilder
 import org.ysb33r.gradle.nodejs.helper.DownloadTestSpecification
 import spock.lang.IgnoreIf
-import spock.lang.Specification
 
 
-/**
- */
 class DownloaderSpec extends DownloadTestSpecification {
 
     Project project = ProjectBuilder.builder().build()

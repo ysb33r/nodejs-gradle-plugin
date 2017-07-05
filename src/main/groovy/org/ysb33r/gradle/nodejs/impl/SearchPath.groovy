@@ -14,6 +14,7 @@
 
 package org.ysb33r.gradle.nodejs.impl
 
+import groovy.transform.CompileStatic
 import org.gradle.api.GradleException
 import org.ysb33r.gradle.olifant.OperatingSystem
 import org.ysb33r.gradle.olifant.StringUtils
@@ -22,6 +23,7 @@ import org.ysb33r.gradle.olifant.StringUtils
  *
  * @since 0.1
  */
+@CompileStatic
 class SearchPath {
     static private final OperatingSystem OS = OperatingSystem.current()
 

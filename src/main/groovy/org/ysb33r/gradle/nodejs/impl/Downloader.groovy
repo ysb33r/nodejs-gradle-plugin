@@ -14,12 +14,9 @@
 
 package org.ysb33r.gradle.nodejs.impl
 
-import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import org.gradle.api.Project
-import org.gradle.util.GradleVersion
 import org.ysb33r.gradle.olifant.AbstractDistributionInstaller
-import org.ysb33r.gradle.olifant.DistributionFailedException
 import org.ysb33r.gradle.olifant.OperatingSystem
 import static org.ysb33r.gradle.olifant.OperatingSystem.Arch.*
 
@@ -32,7 +29,7 @@ class Downloader extends AbstractDistributionInstaller {
     static final OperatingSystem OS = OperatingSystem.current()
     static final OperatingSystem.Arch ARCH = OS.getArch()
 
-    String baseURI = 'https://nodejs.org/dist'
+    static String baseURI = System.getProperty('org.ysb33r.gradle.nodejs.uri') ?: 'https://nodejs.org/dist'
 
 
     Downloader(final String version,final Project project) {

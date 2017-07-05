@@ -18,11 +18,12 @@ import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
 import org.gradle.api.GradleException
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.ysb33r.gradle.nodejs.impl.NodeJSDistributionResolver
 import org.ysb33r.gradle.olifant.OperatingSystem
 import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 
-/** Configure project defaults for Node.js.
+/** Configure project defaults or task specifics for Node.js.
  *
  * @since 0.1
  */
@@ -31,12 +32,21 @@ class NodeJSExtension {
 
     static final String NAME = 'nodejs'
 
-    /** Constructs a new exception which is attahced to the provided project.
+    /** Constructs a new extension which is attached to the provided project.
      *
      * @param project Project this extensionm is associated with.
      */
     NodeJSExtension(Project project) {
         this.project = project
+        this.nodeResolver = new NodeJSDistributionResolver(project)
+    }
+
+    /** Constructs a new extension which is attached to the provided task.
+     *
+     * @param project Project this extensionm is associated with.
+     */
+    NodeJSExtension(Task task) {
+        this.task = task
         this.nodeResolver = new NodeJSDistributionResolver(project)
     }
 
@@ -69,26 +79,32 @@ class NodeJSExtension {
     ResolvedExecutable getResolvedNodeExecutable() {
         ResolvedExecutable ret = nodeResolver.getResolvedExecutable()
 
+        if(ret == null && task) {
+            ret = ((NodeJSExtension)task.project.extensions.getByName(NAME)).getResolvedNodeExecutable()
+        }
         if(ret == null) {
             throw new GradleException('Node.js executable has not been configured.')
         }
+
+        ret
     }
 
-    /** Resolves a path to a {@code npm} executable that is associated with the configured .
+    /** Resolves a path to a {@code npm} executable that is associated with the configured Node.js.
      *
      * @return Returns the path to the located {@code npm} executable.
      * @throw {@code GradleException} if executable was not configured.
      */
-    ResolvedExecutable getResolvedNpmExecutable() {
+    ResolvedExecutable getResolvedNpmCliJs() {
         new ResolvedExecutable() {
             @Override
             File getExecutable() {
-                File root = getResolvedNodeExecutable().getExecutable().getParentFile()
+                File root
                 if(OperatingSystem.current().windows) {
-                    new File(root,'npm.cmd')
+                    root= resolvedNodeExecutable.executable.parentFile
                 } else {
-                    new File(root,'npm')
+                    root= resolvedNodeExecutable.executable.parentFile.parentFile
                 }
+                new File(root,'lib/node_modules/npm/bin/npm-cli.js')
             }
         }
     }
@@ -102,8 +118,6 @@ class NodeJSExtension {
     }
 
     private final Project project
+    private final Task task
     @PackageScope final NodeJSDistributionResolver nodeResolver
-
-
-
 }

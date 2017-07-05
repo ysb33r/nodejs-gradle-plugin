@@ -35,7 +35,7 @@ class NpmExtensionSpec extends Specification {
 
     def 'Use default NPM version'() {
         expect:
-        project.npm.getResolvedNpmExecutable() != null
+        project.npm.getResolvedNpmCliJs() != null
     }
 
     def 'Configure NPM executable version'() {
@@ -51,7 +51,7 @@ class NpmExtensionSpec extends Specification {
         }
 
         then:
-        project.nodejs.getResolvedNpmExecutable() != null
+        project.nodejs.getResolvedNpmCliJs() != null
     }
 
     def 'Configure NPM executable using a path'() {
@@ -67,7 +67,7 @@ class NpmExtensionSpec extends Specification {
         }
 
         then:
-        project.npm.getResolvedNpmExecutable() != null
+        project.npm.getResolvedNpmCliJs() != null
     }
 
     def 'Configure NPM executable using a search path'() {
@@ -85,7 +85,7 @@ class NpmExtensionSpec extends Specification {
         }
 
         then:
-        project.npm.getResolvedNpmExecutable() != null
+        project.npm.getResolvedNpmCliJs() != null
     }
 
     def 'Reset NPM to default version'() {
@@ -101,7 +101,7 @@ class NpmExtensionSpec extends Specification {
         }
 
         then:
-        project.nodejs.getResolvedNpmExecutable() != null
+        project.nodejs.getResolvedNpmCliJs() != null
     }
 
     def 'Cannot configure NPM with more than one option'() {
