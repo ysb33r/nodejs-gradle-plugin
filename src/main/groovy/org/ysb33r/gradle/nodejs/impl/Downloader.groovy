@@ -22,7 +22,7 @@ import static org.ysb33r.gradle.olifant.OperatingSystem.Arch.*
 
 /** Downloads specific versions of NodeJS.
  * Currently limited to Windows (x86, x86_64), MacOS, Linux (x86, x86_64, ARMv6-8). There are more
- * binary packages are available from the NodeJS site, but curretnly these are not being tested. (Patches welcome!)
+ * binary packages are available from the NodeJS site, but currently these are not being tested. (Patches welcome!)
  */
 @CompileStatic
 class Downloader extends AbstractDistributionInstaller {
