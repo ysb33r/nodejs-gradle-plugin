@@ -1,11 +1,8 @@
 = NodeJS plugin for Gradle
 
-== Raison d'Etre
-
 I wrote this because I got fed up with what was available to integrate NodeJs & NPM with Gradle. These plugins have a strong focus on flexibility in order to meet a variety of project needs.
 
-
-== Usage Documentation
+You need at least Gradle 2.8 to use this plugin.
 
 Please see the https://ysb33r.github.io/gradle-nodejs-plugin[plugin & API documentation].
 
