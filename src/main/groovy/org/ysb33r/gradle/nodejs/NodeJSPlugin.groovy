@@ -26,6 +26,6 @@ import org.gradle.api.Project
 class NodeJSPlugin implements Plugin<Project> {
 
     void apply(Project project) {
-        project.apply plugin : NodeJSBasePlugin
+        project.apply plugin : 'org.ysb33r.nodejs.base'
     }
 }
