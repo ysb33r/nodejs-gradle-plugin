@@ -14,8 +14,12 @@ include::parts/bootstrap.adoc[]
 
 include::parts/configure-node-defaults.adoc[]
 
+include::parts/platform-installation-support.adoc[]
+
 include::parts/configure-npm-defaults.adoc[]
 
 include::parts/npmtask.adoc[]
+
+include::parts/tips-and-tricks.adoc[]
 
 include::parts/alternatives.adoc[]
