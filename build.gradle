@@ -58,9 +58,9 @@ dependencies {
 
 gradleTest {
     // tag::gradleTestVersions[]
-    versions '2.5', '2.14', '3.0', '3.5', '4.0'
+    versions '2.8', '2.14', '3.0', '3.5', '4.0'
     // end::gradleTestVersions[]
-    
+
     systemProperties 'org.ysb33r.gradle.nodejs.uri'  : cacheNodejsBinaries.destinationDir.absoluteFile.toURI()
 
 }
