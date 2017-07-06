@@ -1,0 +1,5 @@
+== Tips and tricks
+
+=== Overriding Node Repository URI
+
+There are circumstances whre you might want to download Node distributions from elsewhere besides the standard repository. Simply set the system property `org.ysb33r.gradle.nodejs.uri` to the alternative URI.
