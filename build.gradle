@@ -60,6 +60,9 @@ gradleTest {
     // tag::gradleTestVersions[]
     versions '2.5', '2.14', '3.0', '3.5', '4.0'
     // end::gradleTestVersions[]
+    
+    systemProperties 'org.ysb33r.gradle.nodejs.uri'  : cacheNodejsBinaries.destinationDir.absoluteFile.toURI()
+
 }
 
 license {
@@ -78,8 +81,8 @@ license {
 }
 
 task landingPage( type :  org.asciidoctor.gradle.AsciidoctorTask )
-apply from : 'gradle/build-documentation.gradle'
 
+apply from : 'gradle/build-documentation.gradle'
 apply from : 'gradle/publish-plugins.gradle'
 
 task release {

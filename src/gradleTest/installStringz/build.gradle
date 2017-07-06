@@ -1,0 +1,10 @@
+apply plugin : 'org.ysb33r.nodejs'
+
+nodejs {
+    executable version : '7.10.0'
+}
+
+task runGradleTest ( type : org.ysb33r.gradle.nodejs.NpmTask ) {
+    command 'install'
+    cmdArgs 'stringz@0.2.0'
+}
