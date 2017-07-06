@@ -47,7 +47,7 @@ repositories {
 dependencies {
     compile localGroovy()
     compile gradleApi()
-    compile 'org.ysb33r.gradle:grolifant:0.3-SNAPSHOT'
+    compile 'org.ysb33r.gradle:grolifant:0.3'
 
     testCompile ("org.spockframework:spock-core:1.0-groovy-${spockGroovyVer}") {
         exclude module : 'groovy-all'
