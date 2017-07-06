@@ -1,0 +1,14 @@
+== Introduction
+
+Like many software projects, frameworks, plugins they start off becasue the author could not find a solution that really fitted their needs and submitting pull requests to existing projects would not have changed the direction of such projects to the needs of the author. This is one of those kind of projects and it is offered against a number of <<alternatives,alternative solutions>> that are available as Gradle plugins.
+
+The aim with the group of plugins is making the integration of Node.js and related technologies into the build automation pipeline as smooth as possible. This brought with it a number of subgoals:
+
+* Simplicity to use defaults - convention over configuration
+* Maximum flexibility if you need it.
+* Removing as many Node.js hurdles from the learning curve as possible.
+* No need to install `node` or relevant tools - let Gradle take care of it for you.
+* Allow other developers/contributors of your projects to build it with out fiddling with a big list of prerequisites.
+* Isolate builds from potential side effects due to global `node` installations.
+
+

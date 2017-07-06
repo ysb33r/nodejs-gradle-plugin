@@ -8,10 +8,14 @@
 :testdir: {includetopdir}/src/test/groovy/org/ysb33r/gradle/nodejs
 :groovydoc: ../api/org/ysb33r/gradle/nodejs
 
-//include::parts/bootstrap.adoc[]
+include::parts/introduction.adoc[]
+
+include::parts/bootstrap.adoc[]
 
 include::parts/configure-node-defaults.adoc[]
 
 include::parts/configure-npm-defaults.adoc[]
 
 include::parts/npmtask.adoc[]
+
+include::parts/alternatives.adoc[]
