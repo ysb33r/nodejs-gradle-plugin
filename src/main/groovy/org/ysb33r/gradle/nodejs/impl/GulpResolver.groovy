@@ -27,29 +27,11 @@ import org.ysb33r.gradle.olifant.exec.ResolvedExecutableFactory
  * @since 0.1
  */
 @CompileStatic
-class NpmResolver extends AbstractCommandExecSpec {
+class GulpResolver extends AbstractCommandExecSpec {
 
-    static final Map<String,Object> SEARCH_PATH = [ search : 'npm' ] as Map<String,Object>
-
-    NpmResolver(Project project) {
+    GulpResolver(Project project) {
         super(project)
         registerExecutableKeyActions('version',new Version(project))
-        registerExecutableKeyActions('default',new NodeDefault())
-    }
-
-
-    private static class NodeDefault implements ResolvedExecutableFactory {
-
-        /** Creates {@link ResolvedExecutable} from a specific input.
-         *
-         * @param options Ignored
-         * @param from An instance of {@link NodeJSExtension}
-         * @return The resolved executable.
-         */
-        @Override
-        ResolvedExecutable build(Map<String, Object> options, Object from) {
-            ((NodeJSExtension)from).resolvedNpmCliJs
-        }
     }
 
     private static class Version implements ResolvedExecutableFactory {
@@ -58,21 +40,21 @@ class NpmResolver extends AbstractCommandExecSpec {
             this.project = project
         }
 
-        /** Creates {@link ResolvedExecutable} from a NPM version.
+        /** Creates {@link ResolvedExecutable} from a Gulp tag.
          *
          * @param options Ignored
-         * @param from Anything convertible to a string that contains a valid NPM version.
+         * @param from Anything convertible to a string that contains a valid Gulp tag.
          * @return The resolved executable.
          */
         @Override
         ResolvedExecutable build(Map<String, Object> options, Object from) {
-            Downloader dnl = new Downloader(StringUtils.stringize(from),project)
-            return new ResolvedExecutable() {
-                @Override
-                File getExecutable() {
-                    dnl.getNpmExecutablePath()
-                }
-            }
+//            Downloader dnl = new Downloader(StringUtils.stringize(from),project)
+//            return new ResolvedExecutable() {
+//                @Override
+//                File getExecutable() {
+//                    dnl.getNpmExecutablePath()
+//                }
+//            }
         }
 
         private final Project project

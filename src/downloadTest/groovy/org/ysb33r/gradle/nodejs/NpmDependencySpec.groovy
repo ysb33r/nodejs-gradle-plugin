@@ -16,35 +16,37 @@ package org.ysb33r.gradle.nodejs
 
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
-import org.ysb33r.gradle.nodejs.impl.Downloader
-import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 import org.ysb33r.gradle.nodejs.helper.DownloadTestSpecification
+import org.ysb33r.gradle.nodejs.impl.NpmExecutor
+import spock.lang.Specification
 
-class NodeJsExtensionSpec extends DownloadTestSpecification {
+class NpmDependencySpec extends DownloadTestSpecification {
+
     Project project = ProjectBuilder.builder().build()
 
+    def 'Declare a dependency and resolve it'() {
 
-    void setup() {
-        Downloader.baseURI = NODEJS_CACHE_DIR.toURI()
-
+        given:
         project.allprojects {
-            apply plugin : 'org.ysb33r.nodejs.base'
 
-            nodejs {
-                executable version : '7.10.0'
+           apply plugin : 'org.ysb33r.nodejs.npm'
+
+           nodejs {
+               executable version : NODEJS_VERSION
+           }
+
+           // tag::declare-npm-dependency[]
+            dependencies {
+                npm npmPackage(name : 'stringz', tag : '0.2.2')
             }
+           // end::declare-npm-dependency[]
         }
-    }
-
-    def 'Resolving by version should download NodeJS'() {
-        setup:
-        ResolvedExecutable resolver = project.nodejs.getResolvedNodeExecutable()
 
         when:
-        File nodeJSPath = resolver.executable
+        NpmExecutor.initPkgJson(project,project.extensions.nodejs,project.extensions.npm)
+        Set<File> files = project.configurations.getByName('npm').resolve()
 
         then:
-        nodeJSPath != null
-        nodeJSPath.absolutePath.startsWith(new File(project.gradle.startParameter.gradleUserHomeDir,'native-binaries/nodejs').absolutePath)
+        files.size() > 0
     }
 }

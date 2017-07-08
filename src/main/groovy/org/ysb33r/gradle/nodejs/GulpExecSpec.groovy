@@ -15,20 +15,16 @@
 package org.ysb33r.gradle.nodejs
 
 import groovy.transform.CompileStatic
-import org.gradle.api.GradleException
-import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.ysb33r.gradle.olifant.ExtensionUtils
+import org.ysb33r.gradle.nodejs.impl.GulpResolver
+import org.ysb33r.gradle.olifant.exec.AbstractCommandExecSpec
 
-/** Provide the basic capabilites for dealing with Node.js & NPM tasks. Allow for downlaoding & caching of Node.js distributions
- * on a variery of the most common development platforms.
- *
+/**
  * @since 0.1
  */
 @CompileStatic
-class NodeJSBasePlugin implements Plugin<Project> {
-    void apply(Project project) {
-        project.extensions.create(NodeJSExtension.NAME,NodeJSExtension,project)
+class GulpExecSpec extends GulpResolver {
+    GulpExecSpec(Project project) {
+        super(project)
     }
-
 }

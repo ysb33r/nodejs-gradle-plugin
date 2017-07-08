@@ -19,7 +19,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.process.ExecSpec
 import org.gradle.process.ProcessForkOptions
-import org.ysb33r.gradle.nodejs.impl.NpmResolver
+import org.ysb33r.gradle.nodejs.impl.NpmDistributionResolver
 import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 
 /** Specification for running an NPM command via {@code npm-cli.js}
@@ -30,7 +30,7 @@ import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
  * @since 0.1
  */
 @CompileStatic
-class NpmExecSpec extends NpmResolver {
+class NpmExecSpec extends NpmDistributionResolver {
 
     /** Construct class and attach it to specific project.
      *
@@ -40,31 +40,31 @@ class NpmExecSpec extends NpmResolver {
         super(project)
     }
 
-    /** Do not use this version of the method for NPM.
+    /** Do not use this tag of the method for NPM.
      *
      * @throw GradleException.
      */
     @Override
     ProcessForkOptions executable(Object o) {
-        throw new GradleException( '''Use the Map version to set the executable''' )
+        throw new GradleException( '''Use the Map tag to set the executable''' )
     }
 
-    /** Do not use this version of the method for NPM.
+    /** Do not use this tag of the method for NPM.
      *
      * @throw GradleException.
      */
     @Override
     void setExecutable(Object o) {
-        throw new GradleException( '''Use the Map version to set the executable''' )
+        throw new GradleException( '''Use the Map tag to set the executable''' )
     }
 
-    /** Do not use this version of the method for NPM.
+    /** Do not use this tag of the method for NPM.
      *
      * @throw GradleException.
      */
     @Override
     void setExecutable(String s) {
-        throw new GradleException( '''Use the Map version to set the executable''' )
+        throw new GradleException( '''Use the Map tag to set the executable''' )
     }
 
     /** Install a resolver to find {@code npm-cli.js}.
@@ -104,8 +104,8 @@ class NpmExecSpec extends NpmResolver {
     /** Set the a method to discover {@code npm-cli.js}
      *
      * <pre>
-     *     // Use a specific version (gradle will install the version if need be)
-     *     executable version : '1.2.3.4'
+     *     // Use a specific tag (gradle will install the tag if need be)
+     *     executable tag : '1.2.3.4'
      *
      *     // Via a physical path
      *     executable path : '/path/to/npm-cli.js'

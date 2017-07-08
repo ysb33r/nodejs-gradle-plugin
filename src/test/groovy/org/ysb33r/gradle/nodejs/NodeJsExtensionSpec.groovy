@@ -26,16 +26,16 @@ class NodeJsExtensionSpec extends Specification {
 
     def 'Configure NodeJS executable using a version'() {
 
-        when: 'A version is configured'
+        when: 'A tag is configured'
         project.allprojects {
 
             apply plugin : 'org.ysb33r.nodejs.base'
 
-            // tag::configure-with-version[]
+            // tag::configure-with-tag[]
             nodejs {
                 executable version : '7.10.0' // <1>
             }
-            // end::configure-with-version[]
+            // end::configure-with-tag[]
         }
 
         then:
@@ -44,7 +44,7 @@ class NodeJsExtensionSpec extends Specification {
 
     def 'Configure NodeJS executable using a path'() {
 
-        when: 'A version is configured'
+        when: 'A tag is configured'
         project.allprojects {
 
             apply plugin : NodeJSBasePlugin
@@ -62,7 +62,7 @@ class NodeJsExtensionSpec extends Specification {
 
     def 'Configure NodeJS executable using a search path'() {
 
-        when: 'A version is configured'
+        when: 'A tag is configured'
         project.allprojects {
 
             apply plugin : NodeJSBasePlugin
@@ -80,7 +80,7 @@ class NodeJsExtensionSpec extends Specification {
 
     def 'NodeJS executable must be configured'() {
 
-        when: 'No version is configured'
+        when: 'No tag is configured'
         project.apply plugin : NodeJSBasePlugin
 
         and: 'The executable path is requested'

@@ -18,7 +18,7 @@ import groovy.transform.CompileStatic
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.api.Task
-import org.ysb33r.gradle.nodejs.impl.NpmResolver
+import org.ysb33r.gradle.nodejs.impl.NpmDistributionResolver
 import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 
 /** Set up global config or task-based config for NPM.
@@ -36,10 +36,11 @@ class NpmExtension {
      */
     NpmExtension(Project project) {
         this.project = project
-        this.npmResolver = new NpmResolver(project)
+        this.npmResolver = new NpmDistributionResolver(project)
         this.npmResolver.executable(this.defaultNodejs())
         this.localConfig = new File(project.rootProject.projectDir,'npmrc')
         this.globalConfig = new File(project.gradle.gradleUserHomeDir,'npmrc')
+        this.homeDirectory = project.projectDir
     }
 
     /** Adds the extension to a {@link NpmTask} task.
@@ -58,8 +59,8 @@ class NpmExtension {
      * It can be passed by a single map option.
      *
      * <code>
-     *   // By version (Gradle will download and cache the correct distribution).
-     *   executable version : '7.10.0'
+     *   // By tag (Gradle will download and cache the correct distribution).
+     *   executable tag : '7.10.0'
      *
      *   // By a physical path (
      *   executable path : '/path/to/npm'
@@ -78,7 +79,7 @@ class NpmExtension {
      */
     void executable(final Map<String, Object> opts) {
         if(npmResolver == null) {
-            this.npmResolver = new NpmResolver(project)
+            this.npmResolver = new NpmDistributionResolver(project)
         }
         npmResolver.executable(opts)
     }
@@ -115,7 +116,7 @@ class NpmExtension {
      * @return Returns a special option to be used in {@link #executable}
      */
     Map<String, Object> searchPath() {
-        NpmResolver.SEARCH_PATH
+        NpmDistributionResolver.SEARCH_PATH
     }
 
     /** Location & name of global NPM config file.
@@ -180,6 +181,38 @@ class NpmExtension {
         setLocalConfig(path)
     }
 
+    /** The NPM home directory - the parent directory of {@code node_modules},
+     *
+     * @return Parent directory of {@code node_modules}. Never null if the extension is tied to a project,
+     * in which case it defaults to {@code proect.projectDir}.
+     *
+     */
+    File getHomeDirectory() {
+        if(task) {
+            this.homeDirectory ? project.file(this.homeDirectory) : ((NpmExtension)getProject().extensions.getByName(NAME)).getHomeDirectory()
+        } else {
+            project.file(this.homeDirectory)
+        }
+    }
+
+    /** Sets the home directory.
+     *
+     * @param homeDir A directory in which {@code node_modules} will be created as a child folder.
+     *   Anything that can be resovled with {@code project.file} is acceptable
+     */
+    void setHomeDirectory(Object homeDir) {
+        this.homeDirectory = homeDir
+    }
+
+    /** Sets the home directory.
+     *
+     * @param homeDir A directory in which {@code node_modules} will be created as a child folder.
+     *   Anything that can be resovled with {@code project.file} is acceptable
+     */
+    void homeDirectory(Object homeDir) {
+        setHomeDirectory(homeDir)
+    }
+
     /** Obtains the project this is directly or indirectly attached to.
      *
      * @return Project instance. If this extension was attached to a task, the associated project for that task will be returned.
@@ -190,7 +223,8 @@ class NpmExtension {
 
     private Project project
     private Task task
-    private NpmResolver npmResolver
+    private NpmDistributionResolver npmResolver
     private Object localConfig
     private Object globalConfig
+    private Object homeDirectory
 }

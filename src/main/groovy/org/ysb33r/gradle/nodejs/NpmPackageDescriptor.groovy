@@ -15,20 +15,36 @@
 package org.ysb33r.gradle.nodejs
 
 import groovy.transform.CompileStatic
-import org.gradle.api.GradleException
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-import org.ysb33r.gradle.olifant.ExtensionUtils
 
-/** Provide the basic capabilites for dealing with Node.js & NPM tasks. Allow for downlaoding & caching of Node.js distributions
- * on a variery of the most common development platforms.
+/** Specifies various characteristics of an NPM Package which can be used for various
+ * NPM commands, especially {@code install} and {@code search}.
  *
  * @since 0.1
  */
 @CompileStatic
-class NodeJSBasePlugin implements Plugin<Project> {
-    void apply(Project project) {
-        project.extensions.create(NodeJSExtension.NAME,NodeJSExtension,project)
-    }
+interface NpmPackageDescriptor {
 
+    /** Returns a string that can be passed for installation purposes.
+     *
+     * @return Package name
+     */
+    String toString()
+
+    /** Name of the package without tags
+     *
+     * @return NPM name
+     */
+    String getPackageName()
+
+    /** Name of NPM tag
+     *
+     * @return NPM tag (or {@code null} if not defined).
+     */
+    String getTagName()
+
+    /** Package scope
+     *
+     * @return NPM scope  (or {@code null} if not defined).
+     */
+    String getScope()
 }

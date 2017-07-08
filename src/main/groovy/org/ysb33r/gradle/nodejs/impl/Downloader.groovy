@@ -36,7 +36,7 @@ class Downloader extends AbstractDistributionInstaller {
         super('nodejs',version,'native-binaries/nodejs',project)
     }
 
-    /** Provides an appropriate URI to download a specific version of NodeJS.
+    /** Provides an appropriate URI to download a specific tag of NodeJS.
      *
      * @param ver Version of Doxygen to download
      * @return URI for a supported platform; {@code null} otherwise.

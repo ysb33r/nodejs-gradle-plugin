@@ -16,6 +16,7 @@ package org.ysb33r.gradle.nodejs
 
 import groovy.transform.CompileStatic
 import org.gradle.api.Project
+import org.ysb33r.gradle.nodejs.impl.NpmExecutor
 import org.ysb33r.gradle.olifant.exec.AbstractCommandExecTask
 import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 
@@ -40,25 +41,14 @@ class NpmTask extends AbstractCommandExecTask<NpmExecSpec> {
      * <p> If a failure occurs and {@link #isIgnoreExitValue} is not set an exception will be raised.
      *
      * <p> Sets the {@code npm_config_userconfig} and {@code npm_config_globalconfig} before running from
-     * either the local or global {@code npm} extension (in that order). ti will also configure a {@code node}
+     * either the local or global {@code npm} extension (in that order). It will also configure a {@code node}
      * executable using either the local or gloval {@code nodejs} extension.
      *
      */
     @Override
     void exec() {
-
         NpmExecSpec spec = getToolExecSpec()
-
-        ResolvedExecutable resolver = spec.getResolvedExecutable()
-        if(resolver == null) {
-            resolver = npmExtension.getResolvedNpmCliJs()
-            spec.setExecutable(  resolver )
-        }
-
-        spec.environment  npm_config_userconfig : npmExtension.localConfig.absolutePath,
-            npm_config_globalconfig : npmExtension.globalConfig.absolutePath
-
-        spec.nodeExecutable(nodeExtension.getResolvedNodeExecutable())
+        NpmExecutor.configureSpecFromExtensions(spec,nodeExtension,npmExtension)
         super.exec()
     }
 

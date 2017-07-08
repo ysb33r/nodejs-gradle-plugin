@@ -1,6 +1,5 @@
 == Bootstrapping
 
-
 These plugins are available from the plugin portal. Add the appropriate plugin identifiers to your `build.gradle` file depending on the type of functionality you require.
 
 .build.gradle
@@ -8,20 +7,28 @@ These plugins are available from the plugin portal. Add the appropriate plugin i
 ----
 plugins {
   id 'org.ysb33r.nodejs.base' version '{revnumber}' // <1>
-  id 'org.ysb33r.nodejs' version '{revnumber}' // <2>
+  id 'org.ysb33r.nodejs.npm' version '{revnumber}' // <2>
 }
 ----
 <1> Base plugin
-<2> Conventions NodeJS plugin
+<2> Support for using NPM
 
-NOTE: You need at least Gradle 2.8 to use these plugins.
+NOTE: You need at least Gradle 3.3 to use these plugins.
 
 === Base plugin
 
-The base plugin provides
+The base plugin provides:
 
 * <<node-defaults,nodejs>> extension.
+* Ability to download and use Node distributions.
+
+=== NPM plugin
+
+The NPM plugin provides:
+
 * <<npm-defaults,npm>> extension
 * <<npmtask,NpmTask>> type.
+* `npmexec` project extension to run NPM commands.
+* `npm`, `npmDevOnly`, `npmOptional` configurations.
+* `npmPackage` for listing packages in Gradle `dependencies` blocks.
 * `NpmExecSpec`.
-* Ability to download and use Node distributions.

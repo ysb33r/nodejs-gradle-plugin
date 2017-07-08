@@ -15,32 +15,41 @@
 package org.ysb33r.gradle.nodejs.impl
 
 import groovy.transform.CompileStatic
-import org.gradle.api.GradleException
 import org.gradle.api.Project
-import org.ysb33r.gradle.nodejs.ResolvedExecutable
-import org.ysb33r.gradle.olifant.OperatingSystem
+import org.ysb33r.gradle.nodejs.NodeJSExtension
 import org.ysb33r.gradle.olifant.StringUtils
-import org.ysb33r.gradle.olifant.exec.AbstractToolExecSpec
+import org.ysb33r.gradle.olifant.exec.AbstractCommandExecSpec
 import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 import org.ysb33r.gradle.olifant.exec.ResolvedExecutableFactory
 
-/** Provides a way of resolving a Node.js distribution
+/**
  *
  * @since 0.1
  */
 @CompileStatic
-class NodeJSDistributionResolver extends AbstractToolExecSpec {
+class NpmDistributionResolver extends AbstractCommandExecSpec {
 
-    static final Map<String,Object> SEARCH_PATH = [ search : 'node' ] as Map<String,Object>
+    static final Map<String,Object> SEARCH_PATH = [ search : 'npm' ] as Map<String,Object>
 
-    /** Construct class and attach it to specific project.
-     *
-     * @param project Project this exec spec is attached.
-     */
-
-    NodeJSDistributionResolver(Project project) {
+    NpmDistributionResolver(Project project) {
         super(project)
         registerExecutableKeyActions('version',new Version(project))
+        registerExecutableKeyActions('default',new NodeDefault())
+    }
+
+
+    private static class NodeDefault implements ResolvedExecutableFactory {
+
+        /** Creates {@link ResolvedExecutable} from a specific input.
+         *
+         * @param options Ignored
+         * @param from An instance of {@link NodeJSExtension}
+         * @return The resolved executable.
+         */
+        @Override
+        ResolvedExecutable build(Map<String, Object> options, Object from) {
+            ((NodeJSExtension)from).resolvedNpmCliJs
+        }
     }
 
     private static class Version implements ResolvedExecutableFactory {
@@ -49,10 +58,10 @@ class NodeJSDistributionResolver extends AbstractToolExecSpec {
             this.project = project
         }
 
-        /** Creates {@link ResolvedExecutable} from a NodeJS tag.
+        /** Creates {@link ResolvedExecutable} from a NPM tag.
          *
          * @param options Ignored
-         * @param from Anything convertible to a string that contains a valid Node.JS tag.
+         * @param from Anything convertible to a string that contains a valid NPM tag.
          * @return The resolved executable.
          */
         @Override
@@ -61,12 +70,11 @@ class NodeJSDistributionResolver extends AbstractToolExecSpec {
             return new ResolvedExecutable() {
                 @Override
                 File getExecutable() {
-                    dnl.getNodeExecutablePath()
+                    dnl.getNpmExecutablePath()
                 }
             }
         }
 
         private final Project project
     }
-
 }

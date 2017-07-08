@@ -55,8 +55,8 @@ class NodeJSExtension {
      * It can be passed by a single map option.
      *
      * <code>
-     *   // By version (Gradle will download and cache the correct distribution).
-     *   executable version : '7.10.0'
+     *   // By tag (Gradle will download and cache the correct distribution).
+     *   executable tag : '7.10.0'
      *
      *   // By a physical path (
      *   executable path : '/path/to/node'
@@ -65,7 +65,7 @@ class NodeJSExtension {
      *   executable searchPath()
      * </code>
      *
-     * @param opts Map taken {@code version} or {@code path} as key.
+     * @param opts Map taken {@code tag} or {@code path} as key.
      */
     void executable( final Map<String,Object> opts ) {
         this.nodeResolver.executable(opts)

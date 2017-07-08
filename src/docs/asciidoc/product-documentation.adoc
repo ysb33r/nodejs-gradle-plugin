@@ -6,6 +6,7 @@
 :source-highlighter: coderay
 :sourcedir: {includetopdir}/src/main/groovy/org/ysb33r/gradle/nodejs
 :testdir: {includetopdir}/src/test/groovy/org/ysb33r/gradle/nodejs
+:downloadtestdir: {includetopdir}/src/downloadTest/groovy/org/ysb33r/gradle/nodejs
 :groovydoc: ../api/org/ysb33r/gradle/nodejs
 
 include::parts/introduction.adoc[]
@@ -17,6 +18,8 @@ include::parts/configure-node-defaults.adoc[]
 include::parts/platform-installation-support.adoc[]
 
 include::parts/configure-npm-defaults.adoc[]
+
+include::parts/dependency-management.adoc[]
 
 include::parts/npmtask.adoc[]
 

@@ -25,7 +25,7 @@ class NpmExtensionSpec extends Specification {
 
     void setup() {
         project.allprojects {
-            apply plugin : 'org.ysb33r.nodejs.base'
+            apply plugin : 'org.ysb33r.nodejs.npm'
 
             nodejs {
                 executable version : '7.10.0'
@@ -40,14 +40,14 @@ class NpmExtensionSpec extends Specification {
 
     def 'Configure NPM executable version'() {
 
-        when: 'A version is configured'
+        when: 'A tag is configured'
         project.allprojects {
 
-            // tag::configure-with-version[]
+            // tag::configure-with-tag[]
             npm {
                 executable version : '4.5.0' // <1>
             }
-            // end::configure-with-version[]
+            // end::configure-with-tag[]
         }
 
         then:
@@ -56,7 +56,7 @@ class NpmExtensionSpec extends Specification {
 
     def 'Configure NPM executable using a path'() {
 
-        when: 'A version is configured'
+        when: 'A tag is configured'
         project.allprojects {
 
             // tag::configure-with-path[]
@@ -72,7 +72,7 @@ class NpmExtensionSpec extends Specification {
 
     def 'Configure NPM executable using a search path'() {
 
-        when: 'A version is configured'
+        when: 'A tag is configured'
         project.allprojects {
 
             apply plugin : NodeJSBasePlugin
@@ -90,7 +90,7 @@ class NpmExtensionSpec extends Specification {
 
     def 'Reset NPM to default version'() {
 
-        when: 'The default version is configured'
+        when: 'The default tag is configured'
         project.allprojects {
 
             // tag::configure-with-default[]

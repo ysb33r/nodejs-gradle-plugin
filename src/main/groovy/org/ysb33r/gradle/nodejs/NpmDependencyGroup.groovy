@@ -15,17 +15,24 @@
 package org.ysb33r.gradle.nodejs
 
 import groovy.transform.CompileStatic
-import org.gradle.api.Plugin
-import org.gradle.api.Project
 
-/**
+/** Defines the three NPM package installation/grouping options
  *
  * @since 0.1
  */
 @CompileStatic
-class NodeJSPlugin implements Plugin<Project> {
+enum NpmDependencyGroup {
+    PRODUCTION('prod'),
+    DEVELOPMENT('dev'),
+    OPTIONAL('optional')
 
-    void apply(Project project) {
-        project.apply plugin : 'org.ysb33r.nodejs.base'
+    String getDependencyGroup() {
+        this.dependencyGroup
     }
+
+    private NpmDependencyGroup( final String installArg) {
+        this.dependencyGroup = installArg
+    }
+
+    private final String dependencyGroup
 }

@@ -12,23 +12,24 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs
+package org.ysb33r.gradle.nodejs.impl
 
-import groovy.transform.CompileStatic
-import org.gradle.api.GradleException
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-import org.ysb33r.gradle.olifant.ExtensionUtils
+import org.gradle.api.artifacts.component.ComponentIdentifier
 
-/** Provide the basic capabilites for dealing with Node.js & NPM tasks. Allow for downlaoding & caching of Node.js distributions
- * on a variery of the most common development platforms.
+/** Implements a {@link org.gradle.api.artifacts.component.ComponentIdentifier} interface.
  *
  * @since 0.1
  */
-@CompileStatic
-class NodeJSBasePlugin implements Plugin<Project> {
-    void apply(Project project) {
-        project.extensions.create(NodeJSExtension.NAME,NodeJSExtension,project)
+class NpmComponentIdentifier implements ComponentIdentifier {
+
+    NpmComponentIdentifier(final String name) {
+        this.name = name
     }
 
+    @Override
+    String getDisplayName() {
+        this.name
+    }
+
+    private final String name
 }
