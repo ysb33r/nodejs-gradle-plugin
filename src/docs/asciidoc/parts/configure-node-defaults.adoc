@@ -17,7 +17,7 @@ include::{testdir}/NodeJsExtensionSpec.groovy[tags=configure-with-search-path,in
 <3> Tell Gradle to look for `node` (or `node.exe`) in the system search path.
 
 [[nodeexec]]
-== nodeexec
+== Using nodeexec
 
 It is possible to run `node` directly from Gradle using the `nodeexec` project execution extension. It operates in a similar fashion to Gradle's link:{gradle-dsl}/org.gradle.api.tasks.Exec.html[Exec] task, but it has it's own `node` nuances, which the user need to setup correctly.
 
