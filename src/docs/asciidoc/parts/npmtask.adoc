@@ -5,7 +5,7 @@
 
 [source,groovy]
 ----
-task createPackageJson( type : org.ysb33r.gradle.nodejs.NpmTask ) {
+task createPackageJson( type : org.ysb33r.gradle.nodejs.tasks.NpmTask ) {
     command 'init' // <1>
     cmdArgs '-f', '-y' // <2>
 }
@@ -21,7 +21,7 @@ By taking the same previous example, you can do
 
 [source,groovy]
 ----
-task createPackageJson( type : org.ysb33r.gradle.nodejs.NpmTask ) {
+task createPackageJson( type : org.ysb33r.gradle.nodejs.tasks.NpmTask ) {
     command 'init'
     cmdArgs '-f', '-y'
 

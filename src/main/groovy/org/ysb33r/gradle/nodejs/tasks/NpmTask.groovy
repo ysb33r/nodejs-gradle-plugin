@@ -12,10 +12,13 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs
+package org.ysb33r.gradle.nodejs.tasks
 
 import groovy.transform.CompileStatic
 import org.gradle.api.Project
+import org.ysb33r.gradle.nodejs.NodeJSExtension
+import org.ysb33r.gradle.nodejs.NpmExecSpec
+import org.ysb33r.gradle.nodejs.NpmExtension
 import org.ysb33r.gradle.nodejs.impl.npm.NpmExecutor
 import org.ysb33r.gradle.olifant.exec.AbstractCommandExecTask
 

@@ -19,6 +19,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.ysb33r.gradle.nodejs.impl.npm.NpmDistributionResolver
+import org.ysb33r.gradle.nodejs.tasks.NpmTask
 import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 
 /** Set up global config or task-based config for NPM.
@@ -43,7 +44,7 @@ class NpmExtension {
         this.homeDirectory = project.projectDir
     }
 
-    /** Adds the extension to a {@link NpmTask} task.
+    /** Adds the extension to a {@link org.ysb33r.gradle.nodejs.tasks.NpmTask} task.
      *
      * <p> Links the executable resolving to the global instance, but allows
      * it to be overriden on a per-task basis.

@@ -19,6 +19,7 @@ import org.gradle.api.Task
 import org.gradle.testfixtures.ProjectBuilder
 import org.ysb33r.gradle.nodejs.helper.DownloadTestSpecification
 import org.ysb33r.gradle.nodejs.impl.Downloader
+import org.ysb33r.gradle.nodejs.tasks.NpmTask
 
 class NpmTaskExecutionSpec extends DownloadTestSpecification {
 
