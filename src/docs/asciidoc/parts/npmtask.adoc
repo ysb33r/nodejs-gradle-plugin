@@ -34,7 +34,7 @@ task createPackageJson( type : org.ysb33r.gradle.nodejs.NpmTask ) {
     }
 }
 ----
-<1> Change the specific of `node` when executing this tasl.
+<1> Change the specific of `node` when executing this task.
 <2> Use a different local configuration file.
 
 NOTE: This kind of flexibility is not applicable for probably the majority of cases, but there are specific use cases where this is extremely helpful.

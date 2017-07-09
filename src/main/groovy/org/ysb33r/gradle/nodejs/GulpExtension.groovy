@@ -17,7 +17,7 @@ package org.ysb33r.gradle.nodejs
 import groovy.transform.CompileStatic
 import org.gradle.api.Project
 import org.gradle.api.Task
-import org.ysb33r.gradle.nodejs.impl.GulpResolver
+import org.ysb33r.gradle.nodejs.impl.gulp.GulpResolver
 
 /** Extension that allows for setting of Gulp configuration at a project or task level.
  * @since 0.1

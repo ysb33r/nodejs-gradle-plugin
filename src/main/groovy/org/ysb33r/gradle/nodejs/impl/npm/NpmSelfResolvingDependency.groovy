@@ -12,14 +12,13 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs.impl
+package org.ysb33r.gradle.nodejs.impl.npm
 
 import groovy.transform.CompileStatic
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.FileCollectionDependency
-import org.gradle.api.artifacts.SelfResolvingDependency
 import org.gradle.api.artifacts.component.ComponentIdentifier
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.FileTree

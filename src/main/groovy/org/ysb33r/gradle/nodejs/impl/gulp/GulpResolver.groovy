@@ -12,12 +12,11 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs.impl
+package org.ysb33r.gradle.nodejs.impl.gulp
 
 import groovy.transform.CompileStatic
 import org.gradle.api.Project
-import org.ysb33r.gradle.nodejs.NodeJSExtension
-import org.ysb33r.gradle.olifant.StringUtils
+import org.ysb33r.gradle.nodejs.impl.npm.NpmExecutor
 import org.ysb33r.gradle.olifant.exec.AbstractCommandExecSpec
 import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 import org.ysb33r.gradle.olifant.exec.ResolvedExecutableFactory
@@ -27,29 +26,11 @@ import org.ysb33r.gradle.olifant.exec.ResolvedExecutableFactory
  * @since 0.1
  */
 @CompileStatic
-class NpmDistributionResolver extends AbstractCommandExecSpec {
+class GulpResolver extends AbstractCommandExecSpec {
 
-    static final Map<String,Object> SEARCH_PATH = [ search : 'npm' ] as Map<String,Object>
-
-    NpmDistributionResolver(Project project) {
+    GulpResolver(Project project) {
         super(project)
         registerExecutableKeyActions('version',new Version(project))
-        registerExecutableKeyActions('default',new NodeDefault())
-    }
-
-
-    private static class NodeDefault implements ResolvedExecutableFactory {
-
-        /** Creates {@link ResolvedExecutable} from a specific input.
-         *
-         * @param options Ignored
-         * @param from An instance of {@link NodeJSExtension}
-         * @return The resolved executable.
-         */
-        @Override
-        ResolvedExecutable build(Map<String, Object> options, Object from) {
-            ((NodeJSExtension)from).resolvedNpmCliJs
-        }
     }
 
     private static class Version implements ResolvedExecutableFactory {
@@ -58,21 +39,22 @@ class NpmDistributionResolver extends AbstractCommandExecSpec {
             this.project = project
         }
 
-        /** Creates {@link ResolvedExecutable} from a NPM tag.
+        /** Creates {@link ResolvedExecutable} from a Gulp tag.
          *
          * @param options Ignored
-         * @param from Anything convertible to a string that contains a valid NPM tag.
+         * @param from Anything convertible to a string that contains a valid Gulp tag.
          * @return The resolved executable.
          */
         @Override
         ResolvedExecutable build(Map<String, Object> options, Object from) {
-            Downloader dnl = new Downloader(StringUtils.stringize(from),project)
-            return new ResolvedExecutable() {
-                @Override
-                File getExecutable() {
-                    dnl.getNpmExecutablePath()
-                }
-            }
+//            Downloader dnl = new Downloader(StringUtils.stringize(from),project)
+//            return new ResolvedExecutable() {
+//                @Override
+//                File getExecutable() {
+//                    Set<File> files = NpmExecutor.installNpmPackage()
+//                    dnl.getNpmExecutablePath()
+//                }
+//            }
         }
 
         private final Project project

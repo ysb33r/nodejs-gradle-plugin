@@ -12,18 +12,15 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs
+package org.ysb33r.gradle.nodejs.plugins
 
 import groovy.transform.CompileStatic
-import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.Configuration
-import org.gradle.api.attributes.Attribute
-import org.ysb33r.gradle.nodejs.impl.NpmExecSpecInstantiator
-import org.ysb33r.gradle.nodejs.impl.NpmSelfResolvingDependency
+import org.ysb33r.gradle.nodejs.NpmExtension
+import org.ysb33r.gradle.nodejs.impl.npm.NpmExecSpecInstantiator
+import org.ysb33r.gradle.nodejs.impl.npm.NpmSelfResolvingDependency
 import org.ysb33r.gradle.olifant.ExtensionUtils
-import org.ysb33r.gradle.olifant.exec.ExecSpecInstantiator
 
 /**
  *

@@ -30,9 +30,11 @@ class NodeJsExtensionSpec extends DownloadTestSpecification {
         project.allprojects {
             apply plugin : 'org.ysb33r.nodejs.base'
 
+            // tag::configure-with-version[]
             nodejs {
                 executable version : '7.10.0'
             }
+            // end::configure-with-version[]
         }
     }
 

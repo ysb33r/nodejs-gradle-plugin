@@ -20,6 +20,7 @@ NOTE: You need at least Gradle 3.3 to use these plugins.
 The base plugin provides:
 
 * <<node-defaults,nodejs>> extension.
+* <<nodeexec,nodeexec>> execution extension.
 * Ability to download and use Node distributions.
 
 === NPM plugin
@@ -32,3 +33,10 @@ The NPM plugin provides:
 * `npm`, `npmDevOnly`, `npmOptional` configurations.
 * `npmPackage` for listing packages in Gradle `dependencies` blocks.
 * `NpmExecSpec`.
+
+Applying the NPM plugin will apply the base plugin.
+
+=== Gulp plugin
+
+
+Applying the Gulp plugin will apply the NPM plugin.

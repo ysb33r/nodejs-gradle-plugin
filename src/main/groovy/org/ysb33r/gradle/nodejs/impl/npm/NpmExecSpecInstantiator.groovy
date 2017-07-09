@@ -12,22 +12,32 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs
+package org.ysb33r.gradle.nodejs.impl.npm
 
 import groovy.transform.CompileStatic
-import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.ysb33r.gradle.nodejs.NpmExecSpec
+import org.ysb33r.gradle.olifant.exec.ExecSpecInstantiator
 
-/** Provides {@code gulpConfig} extension.
+/** Creates instances for {@link NpmExecSpec}
  *
  * @since 0.1
  */
 @CompileStatic
-class GulpBasePlugin implements Plugin<Project> {
+class NpmExecSpecInstantiator implements ExecSpecInstantiator<NpmExecSpec> {
 
-    void apply(Project project) {
-        project.apply plugin : 'org.ysb33r.nodejs.npm'
-
-        project.extensions.create(GulpExtension.NAME,GulpExtension,project)
+    /** Instantiates a NPM execution specification.
+     *
+     * @param project Project that this execution specification will be associated with.
+     * @return New NPM execution specification.
+     */
+    @Override
+    NpmExecSpec create(Project project) {
+        new NpmExecSpec(project)
     }
+
+    /** An existing instance that can be used without concurrency issues.
+     *
+     */
+    static final NpmExecSpecInstantiator INSTANCE = new NpmExecSpecInstantiator()
 }

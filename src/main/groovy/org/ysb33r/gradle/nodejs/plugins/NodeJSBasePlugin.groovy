@@ -12,32 +12,28 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs.impl
+package org.ysb33r.gradle.nodejs.plugins
 
 import groovy.transform.CompileStatic
+import org.gradle.api.GradleException
+import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.ysb33r.gradle.nodejs.NpmExecSpec
-import org.ysb33r.gradle.olifant.exec.ExecSpecInstantiator
+import org.ysb33r.gradle.nodejs.NodeJSExtension
+import org.ysb33r.gradle.nodejs.impl.NodeJSExecSpecInstantiator
+import org.ysb33r.gradle.olifant.ExtensionUtils
 
-/** Creates instances for {@link NpmExecSpec}
+/** Provide the basic capabilites for dealing with Node.js & NPM tasks. Allow for downlaoding & caching of Node.js distributions
+ * on a variery of the most common development platforms.
  *
  * @since 0.1
  */
 @CompileStatic
-class NpmExecSpecInstantiator implements ExecSpecInstantiator<NpmExecSpec> {
+class NodeJSBasePlugin implements Plugin<Project> {
+    void apply(Project project) {
+        project.extensions.create(NodeJSExtension.NAME,NodeJSExtension,project)
 
-    /** Instantiates a NPM execution specification.
-     *
-     * @param project Project that this execution specification will be associated with.
-     * @return New NPM execution specification.
-     */
-    @Override
-    NpmExecSpec create(Project project) {
-        new NpmExecSpec(project)
+        ExtensionUtils.addExecProjectExtension('nodeexec',project,NodeJSExecSpecInstantiator.INSTANCE)
+
     }
 
-    /** An existing instance that can be used without concurrency issues.
-     *
-     */
-    static final NpmExecSpecInstantiator INSTANCE = new NpmExecSpecInstantiator()
 }

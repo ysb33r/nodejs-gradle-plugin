@@ -12,7 +12,7 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs.impl
+package org.ysb33r.gradle.nodejs.impl.npm
 
 import org.gradle.api.artifacts.component.ComponentIdentifier
 

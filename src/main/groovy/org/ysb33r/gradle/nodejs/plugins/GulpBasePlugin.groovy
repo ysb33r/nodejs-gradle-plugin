@@ -12,25 +12,23 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs
+package org.ysb33r.gradle.nodejs.plugins
 
 import groovy.transform.CompileStatic
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.ysb33r.gradle.nodejs.GulpExtension
 
-/** Create Gulp plugin that applies some conventions.
+/** Provides {@code gulpConfig} extension.
  *
  * @since 0.1
  */
 @CompileStatic
-class GulpPlugin implements Plugin<Project> {
-
-    static final String GULP_TASK_NAME = 'gulp'
-    static final String GULP_INTERNAL_CONFIGURATION = '$$$$gulp$$$$'
+class GulpBasePlugin implements Plugin<Project> {
 
     void apply(Project project) {
-        project.apply plugin : 'org.ysb33r.nodejs.gulp.base'
-        project.configurations.create(GULP_INTERNAL_CONFIGURATION).visible = false
-//        project.tasks.create(GULP_TASK_NAME,GulpTask)
+        project.apply plugin : 'org.ysb33r.nodejs.npm'
+
+        project.extensions.create(GulpExtension.NAME,GulpExtension,project)
     }
 }

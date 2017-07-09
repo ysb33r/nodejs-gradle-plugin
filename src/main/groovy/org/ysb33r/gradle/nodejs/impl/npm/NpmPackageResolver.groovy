@@ -12,7 +12,7 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs.impl
+package org.ysb33r.gradle.nodejs.impl.npm
 
 import groovy.transform.CompileStatic
 import org.gradle.api.Project
@@ -20,7 +20,6 @@ import org.ysb33r.gradle.nodejs.NodeJSExtension
 import org.ysb33r.gradle.nodejs.NpmDependencyGroup
 import org.ysb33r.gradle.nodejs.NpmExtension
 import org.ysb33r.gradle.nodejs.NpmPackageDescriptor
-import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 
 /** Resolves an NPM package and installs it in a designated node_modules directory
  *

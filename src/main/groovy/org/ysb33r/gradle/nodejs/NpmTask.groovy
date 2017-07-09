@@ -16,9 +16,8 @@ package org.ysb33r.gradle.nodejs
 
 import groovy.transform.CompileStatic
 import org.gradle.api.Project
-import org.ysb33r.gradle.nodejs.impl.NpmExecutor
+import org.ysb33r.gradle.nodejs.impl.npm.NpmExecutor
 import org.ysb33r.gradle.olifant.exec.AbstractCommandExecTask
-import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 
 /** Ability to execute any NPM command with parameters.
  *

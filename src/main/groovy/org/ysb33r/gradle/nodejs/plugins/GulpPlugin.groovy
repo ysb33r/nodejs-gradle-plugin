@@ -12,23 +12,25 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs
+package org.ysb33r.gradle.nodejs.plugins
 
 import groovy.transform.CompileStatic
-import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.ysb33r.gradle.olifant.ExtensionUtils
 
-/** Provide the basic capabilites for dealing with Node.js & NPM tasks. Allow for downlaoding & caching of Node.js distributions
- * on a variery of the most common development platforms.
+/** Create Gulp plugin that applies some conventions.
  *
  * @since 0.1
  */
 @CompileStatic
-class NodeJSBasePlugin implements Plugin<Project> {
-    void apply(Project project) {
-        project.extensions.create(NodeJSExtension.NAME,NodeJSExtension,project)
-    }
+class GulpPlugin implements Plugin<Project> {
 
+    static final String GULP_TASK_NAME = 'gulp'
+    static final String GULP_INTERNAL_CONFIGURATION = '$$$$gulp$$$$'
+
+    void apply(Project project) {
+        project.apply plugin : 'org.ysb33r.nodejs.gulp.base'
+        project.configurations.create(GULP_INTERNAL_CONFIGURATION).visible = false
+//        project.tasks.create(GULP_TASK_NAME,GulpTask)
+    }
 }

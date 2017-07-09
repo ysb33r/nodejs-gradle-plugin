@@ -85,6 +85,7 @@ asciidoctor {
     separateOutputDirs = false
     inputs.files sourceSets.main.allSource
     inputs.files sourceSets.test.allSource
+    inputs.files sourceSets.downloadTest.allSource
 
     sources {
         include 'product-documentation.adoc'
@@ -92,7 +93,9 @@ asciidoctor {
     }
 
     attributes revnumber: version,
-            includetopdir : projectDir.absolutePath
+            includetopdir : projectDir.absolutePath,
+            'gradle-javadoc' : "https://docs.gradle.org/${gradle.gradleVersion}/javadoc",
+            'gradle-dsl' : "https://docs.gradle.org/${gradle.gradleVersion}/dsl"
 }
 
 task installDocs( type : Copy ) {

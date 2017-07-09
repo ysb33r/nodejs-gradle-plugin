@@ -19,7 +19,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.process.ExecSpec
 import org.gradle.process.ProcessForkOptions
-import org.ysb33r.gradle.nodejs.impl.NpmDistributionResolver
+import org.ysb33r.gradle.nodejs.impl.npm.NpmDistributionResolver
 import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 
 /** Specification for running an NPM command via {@code npm-cli.js}

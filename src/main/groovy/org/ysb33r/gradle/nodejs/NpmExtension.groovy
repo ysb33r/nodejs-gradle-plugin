@@ -18,7 +18,7 @@ import groovy.transform.CompileStatic
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.api.Task
-import org.ysb33r.gradle.nodejs.impl.NpmDistributionResolver
+import org.ysb33r.gradle.nodejs.impl.npm.NpmDistributionResolver
 import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
 
 /** Set up global config or task-based config for NPM.

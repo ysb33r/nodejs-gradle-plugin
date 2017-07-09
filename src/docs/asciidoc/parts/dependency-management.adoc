@@ -4,7 +4,7 @@ The NPM plugin adds a `npmPackage` extention that can be used inside the `depend
 
 [source,groovy]
 ----
-include::{downloadtestdir}/NpmDependencySpec/groovy[tags=declare-npm-dependency]
+include::{downloadtestdir}/NpmDependencySpec.groovy[tags=declare-npm-dependency,indent=0]
 ----
 
 Anything added with `npmPackage` can also update `package.json` depending on the `type` property.

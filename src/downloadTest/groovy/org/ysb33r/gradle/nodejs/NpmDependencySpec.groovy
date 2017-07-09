@@ -17,8 +17,7 @@ package org.ysb33r.gradle.nodejs
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.ysb33r.gradle.nodejs.helper.DownloadTestSpecification
-import org.ysb33r.gradle.nodejs.impl.NpmExecutor
-import spock.lang.Specification
+import org.ysb33r.gradle.nodejs.impl.npm.NpmExecutor
 
 class NpmDependencySpec extends DownloadTestSpecification {
 

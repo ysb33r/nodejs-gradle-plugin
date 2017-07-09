@@ -12,7 +12,7 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs.impl
+package org.ysb33r.gradle.nodejs.impl.npm
 
 import groovy.transform.CompileStatic
 import org.gradle.api.GradleException
@@ -67,7 +67,7 @@ class NpmExecutor {
 
     /** Runs NPM given a fully-configured execution specification.
      *
-     * @param project
+     * @param project The project in which context this execution will be performed.
      * @param execSpec
      * @return Execution result
      * @throw May throw depending on whether execution specification was mal-configured or whether

@@ -18,8 +18,8 @@ import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.ysb33r.gradle.nodejs.NpmDependency
 import org.ysb33r.gradle.nodejs.NpmDependencyGroup
-import org.ysb33r.gradle.nodejs.NpmExecSpec
 import org.ysb33r.gradle.nodejs.helper.DownloadTestSpecification
+import org.ysb33r.gradle.nodejs.impl.npm.NpmExecutor
 import spock.lang.Unroll
 
 class NpmExecutorSpec extends DownloadTestSpecification {
@@ -49,16 +49,13 @@ class NpmExecutorSpec extends DownloadTestSpecification {
         when:
         File pkgJson = NpmExecutor.initPkgJson(project,project.extensions.nodejs,project.extensions.npm)
 
-        println "fooooo1"
         Set<File> files = NpmExecutor.installNpmPackage(
             project,
             new NpmDependency('stringz','0.2.2'),
             group,
             []
         )
-        println "fooooo2"
         File pkgroot = new File(project.projectDir,'node_modules/stringz')
-        println "fooooo3"
 
         then:
         pkgroot.exists()
