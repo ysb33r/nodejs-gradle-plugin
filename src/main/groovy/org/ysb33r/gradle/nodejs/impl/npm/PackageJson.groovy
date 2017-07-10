@@ -15,42 +15,15 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class PackageJson {
 
-    static Object parsePackageJsonFileDynamic(final File packageJson) {
+    static Object parsePackageJsonToGPath(final File packageJson) {
         JsonSlurper parser = new JsonSlurper( type : (packageJson.size() > 4194304 ? JsonParserType.CHARACTER_SOURCE : JsonParserType.INDEX_OVERLAY) )
         parser.parse(packageJson)
     }
 
-    @CompileDynamic
     static PackageJson parsePackageJson(final File packageJson) {
-        Object json = parsePackageJsonFileDynamic(packageJson)
+        Object json = parsePackageJsonToGPath(packageJson)
         PackageJson descriptor = new PackageJson()
-
-        descriptor.with {
-            name = json.name
-            version = json.version
-            description = json.description
-            license = json.license
-
-            if(json.dependencies) {
-                dependencies.putAll(json.dependencies)
-            }
-
-            if(json.devDependencies) {
-                devDependencies.putAll(json.devDependencies)
-            }
-
-            if(json.optionalDependencies) {
-                optionalDependencies.putAll(json.optionalDependencies)
-            }
-
-            if(json.peerDependencies) {
-                peerDependencies.putAll(json.peerDependencies)
-            }
-
-            if(json.bundledDependencies) {
-                bundledDependencies.addAll(json.bundledDependencies)
-            }
-        }
+        convertGPathToProperties(descriptor,json)
     }
 
     String getName() {
@@ -102,4 +75,36 @@ class PackageJson {
     private Map<String,String> optionalDependencies = [:]
     private Map<String,String> peerDependencies = [:]
     private List<String> bundledDependencies = []
+
+    @CompileDynamic
+    private static PackageJson convertGPathToProperties(PackageJson descriptor,Object json) {
+        descriptor.with {
+            name = json.name
+            version = json.version
+            description = json.description
+            license = json.license
+
+            if(json.dependencies) {
+                dependencies.putAll(json.dependencies)
+            }
+
+            if(json.devDependencies) {
+                devDependencies.putAll(json.devDependencies)
+            }
+
+            if(json.optionalDependencies) {
+                optionalDependencies.putAll(json.optionalDependencies)
+            }
+
+            if(json.peerDependencies) {
+                peerDependencies.putAll(json.peerDependencies)
+            }
+
+            if(json.bundledDependencies) {
+                bundledDependencies.addAll(json.bundledDependencies)
+            }
+        }
+
+        return descriptor
+    }
 }

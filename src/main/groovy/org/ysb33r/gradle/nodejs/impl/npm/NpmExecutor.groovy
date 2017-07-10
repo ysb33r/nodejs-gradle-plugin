@@ -155,7 +155,7 @@ class NpmExecutor {
      * @param additionalArgs Additional arguments to be passed to NPM install command.
      * @return {@link org.gradle.api.FileTree} with lists of files that were installed. Will also include files from
      *   packages that were already there, but which would have been installed otherwise.
-     * @throw GradleException if {@code packageJson{ does not exist or is not in the {@code project.npm.homeDirectory}.
+     * @throw GradleException if {@code packageJson} does not exist or is not in the {@code project.npm.homeDirectory}.
      */
     static FileTree installPackagesFromDescription(
         final Project project,
@@ -180,7 +180,7 @@ class NpmExecutor {
      * @param additionalArgs Additional arguments to be passed to NPM install command.
      * @return {@link org.gradle.api.FileTree} with lists of files that were installed. Will also include files from
      *   packages that were already there, but which would have been installed otherwise.
-     * @throw GradleException if {@code packageJson{ does not exist or is not in the {@code npmExtension.homeDirectory}.
+     * @throw GradleException if {@code packageJson} does not exist or is not in the {@code npmExtension.homeDirectory}.
      */
     static FileTree installPackagesFromDescription(
         final Project project,
@@ -203,7 +203,7 @@ class NpmExecutor {
         execSpec.cmdArgs additionalArgs
         configureSpecFromExtensions(execSpec, nodeJSExtension, npmExtension)
         runNpm(project,execSpec).assertNormalExitValue()
-        calculateInstallableFiles(project,packageJson)
+        calculateInstallableFiles(project,npmExtension,packageJson)
     }
 
     /** Works out where the installaton folder will be for a package.
@@ -262,11 +262,52 @@ class NpmExecutor {
 
     /** Returns a live set of installable files.
      *
+     * <p> This is an approximation. It parses the {@code package.json} file to discover dependencies, then
+     *   recursively parses all other {@code package.json} files it find in those dependencies.
+     *
      * @param project Gradle project this instalalton is associated with
-     * @param rootPackageJson
-     * @return Live file collecton, meaning it is possible to add more package directories
+     * @param npmExtension Extension that defines the NPM context.
+     * @param rootPackageJson Initial package.json file to start traversal.
+     * @return Live file collecton, meaning it is possible to add more package directories.
+     *   Returns null if no dependencies, optional dependencies or dev dependencies were found.
+     * @throw GradleException if {@code packageJson} does not exist or is not in the {@code npmExtension.homeDirectory}.
      */
-    static FileTree calculateInstallableFiles( Project project, File rootPackageJson ) {
-        null
+    static FileTree calculateInstallableFiles( Project project, NpmExtension npmExtension, File rootPackageJson ) {
+
+        if(rootPackageJson.name != 'package.json' || !rootPackageJson.exists() ) {
+            throw new GradleException("${rootPackageJson} does not exist or is not a valid description file")
+        }
+
+        if(rootPackageJson.parentFile != npmExtension.homeDirectory) {
+            throw new GradleException("${rootPackageJson} is not a child of ${npmExtension.homeDirectory}")
+        }
+
+
+        PackageJson descriptor = PackageJson.parsePackageJson(rootPackageJson)
+        Set<String> pkgNames = []
+        pkgNames.addAll(descriptor.dependencies.keySet())
+        pkgNames.addAll(descriptor.devDependencies.keySet())
+        pkgNames.addAll(descriptor.optionalDependencies.keySet())
+        if(pkgNames.empty) {
+            return null
+        }
+
+        String root = npmExtension.homeDirectory.absolutePath
+        Set<String> pkgDirectories = pkgNames.collect { String name ->
+            "${root}/${name}"
+        }
+
+        FileTree tree = project.fileTree( project.files(pkgDirectories) )
+        for (String dir : pkgDirectories) {
+            File nextPackageJson = new File(root,'package.json')
+            if(nextPackageJson.exists()) {
+                FileTree nextCollection = calculateInstallableFiles(project,npmExtension,nextPackageJson)
+                if(nextCollection != null) {
+                    tree.add(nextCollection)
+                }
+            }
+        }
+
+        return tree
     }
 }
