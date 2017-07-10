@@ -115,9 +115,9 @@ class NpmExecutor {
     /** Installs an NPM package by running {@code npm install} i a controlled environment.
      *
      * @param project Gradle {@link org.gradle.api.Project} that this installation is associated with.
-     * @param nodeJSExtension A NodeJS project or task extension
-     * @param npmExtension A NPM project or task extension
-     * @param npmPackageDescriptor Description of NPM package
+     * @param nodeJSExtension A NodeJS project or task extension.
+     * @param npmExtension A NPM project or task extension.
+     * @param npmPackageDescriptor Description of NPM package.
      * @param installGroup Production, development of optional installation.
      * @param additionalArgs Any additional arguments that might be deemed necessary to customise the installation.
      *   This is here to provide flexibility as the auithro cannot foresee all common use cases.
@@ -148,6 +148,72 @@ class NpmExecutor {
         fileTree.files
     }
 
+    /** Inatalls packages from a {@code package.json} description.
+     *
+     * @param project Project the installation is associated with.
+     * @param packageJson Path to a {@code package.json} file.
+     * @param additionalArgs Additional arguments to be passed to NPM install command.
+     * @return {@link org.gradle.api.FileTree} with lists of files that were installed. Will also include files from
+     *   packages that were already there, but which would have been installed otherwise.
+     * @throw GradleException if {@code packageJson{ does not exist or is not in the {@code project.npm.homeDirectory}.
+     */
+    static FileTree installPackagesFromDescription(
+        final Project project,
+        final File packageJson,
+        Iterable<String> additionalArgs
+    ) {
+        installPackagesFromDescription(
+            project,
+            (NodeJSExtension)(project.extensions.getByName(NodeJSExtension.NAME)),
+            (NpmExtension)(project.extensions.getByName(NpmExtension.NAME)),
+            packageJson,
+            additionalArgs
+        )
+    }
+
+    /** Inatalls packages from a {@code package.json} description.
+     *
+     * @param project Project the installation is associated with.
+     * @param nodeJSExtension A NodeJS project or task extension.
+     * @param npmExtension A NPM project or task extension.
+     * @param packageJson Path to a {@code package.json} file.
+     * @param additionalArgs Additional arguments to be passed to NPM install command.
+     * @return {@link org.gradle.api.FileTree} with lists of files that were installed. Will also include files from
+     *   packages that were already there, but which would have been installed otherwise.
+     * @throw GradleException if {@code packageJson{ does not exist or is not in the {@code npmExtension.homeDirectory}.
+     */
+    static FileTree installPackagesFromDescription(
+        final Project project,
+        final NodeJSExtension nodeJSExtension,
+        final NpmExtension npmExtension,
+        final File packageJson,
+        Iterable<String> additionalArgs
+    ) {
+        if(packageJson.name != 'package.json' || !packageJson.exists() ) {
+            throw new GradleException("${packageJson} does not exist or is not a valid description file")
+        }
+
+        if(packageJson.parentFile != npmExtension.homeDirectory) {
+            throw new GradleException("${packageJson} is not a child of ${npmExtension.homeDirectory}")
+        }
+
+        NpmExecSpec execSpec = NpmExecSpecInstantiator.INSTANCE.create(project)
+        execSpec.command 'install'
+        execSpec.cmdArgs packageJson.parentFile.absolutePath
+        execSpec.cmdArgs additionalArgs
+        configureSpecFromExtensions(execSpec, nodeJSExtension, npmExtension)
+        runNpm(project,execSpec).assertNormalExitValue()
+        calculateInstallableFiles(project,packageJson)
+    }
+
+    /** Works out where the installaton folder will be for a package.
+     *
+     * @param project Gradle {@link org.gradle.api.Project} that this installation is associated with.
+     * @param nodeJSExtension A NodeJS project or task extension
+     * @param npmExtension A NPM project or task extension
+     * @param npmPackageDescriptor Description of NPM package
+     * @return The path where the package will be installe dto
+     */
     static File getPackageInstallationFolder(
         final Project project,
         final NodeJSExtension nodeJSExtension,
@@ -177,7 +243,7 @@ class NpmExecutor {
 
         NpmExecSpec execSpec = NpmExecSpecInstantiator.INSTANCE.create(project)
         execSpec.command 'init'
-        execSpec.cmdArgs '-f'
+        execSpec.cmdArgs '-f', '-q'
         configureSpecFromExtensions(execSpec, nodeJSExtension, npmExtension)
         runNpm(project,execSpec).assertNormalExitValue()
 
@@ -194,4 +260,13 @@ class NpmExecutor {
         return packageJson
     }
 
+    /** Returns a live set of installable files.
+     *
+     * @param project Gradle project this instalalton is associated with
+     * @param rootPackageJson
+     * @return Live file collecton, meaning it is possible to add more package directories
+     */
+    static FileTree calculateInstallableFiles( Project project, File rootPackageJson ) {
+        null
+    }
 }

@@ -22,6 +22,9 @@ import org.ysb33r.gradle.nodejs.helper.DownloadTestSpecification
 import org.ysb33r.gradle.nodejs.impl.npm.NpmExecutor
 import spock.lang.Unroll
 
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+
 class NpmExecutorSpec extends DownloadTestSpecification {
 
     Project project = ProjectBuilder.builder().build()
@@ -45,7 +48,6 @@ class NpmExecutorSpec extends DownloadTestSpecification {
 
     @Unroll
     def 'Install NPM dependency as #group'() {
-
         when:
         File pkgJson = NpmExecutor.initPkgJson(project,project.extensions.nodejs,project.extensions.npm)
 
@@ -67,6 +69,22 @@ class NpmExecutorSpec extends DownloadTestSpecification {
         NpmDependencyGroup.PRODUCTION  | ''
         NpmDependencyGroup.DEVELOPMENT | '"devDependencies":'
         NpmDependencyGroup.OPTIONAL    | '"optionalDependencies"'
+    }
 
+    def 'Install a set of dependencies from a package.json file'() {
+        setup:
+        File packageJson = new File(project.projectDir,'package.json')
+        Files.copy( new File(RESOURCES_DIR,'installtest-package.json').toPath(),packageJson.toPath(),StandardCopyOption.COPY_ATTRIBUTES)
+
+        when:
+        NpmExecutor.installPackagesFromDescription(
+            project,
+            packageJson,
+            []
+        )
+
+        then:
+        new File(project.projectDir,'node_modules/websocket-extensions').exists()
+        new File(project.projectDir,'node_modules/lru-cache').exists()
     }
 }
