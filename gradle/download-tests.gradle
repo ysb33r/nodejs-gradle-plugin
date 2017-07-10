@@ -90,6 +90,7 @@ task downloadTest(type: Test, dependsOn: jar) {
     systemProperties NODEJS_CACHE_DIR  : cacheNodejsBinaries.destinationDir.absolutePath
     systemProperties NPM_CACHE_DIR     : cacheNpmPackages.destinationDir.absolutePath
     systemProperties NODEJS_VERSION    : nodejsTestVersions[0]
+    systemProperties RESOURCES_DIR     : file('src/downloadTest/resources').absolutePath
 
     mustRunAfter test
     dependsOn cacheNodejsBinaries, cacheNpmPackages

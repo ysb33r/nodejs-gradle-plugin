@@ -24,6 +24,9 @@ import spock.lang.Specification
 class DownloadTestSpecification extends Specification {
     static final String NODEJS_VERSION = System.getProperty('NODEJS_VERSION') ?: '7.10.0'
     static final File NODEJS_CACHE_DIR = new File( System.getProperty('NODEJS_CACHE_DIR') ?: './build/nodejs-binaries').absoluteFile
+    static final File RESOURCES_DIR = new File (System.getProperty('RESOURCES_DIR') ?: './src/downloadTest/resources')
+
     static final OperatingSystem OS = OperatingSystem.current()
     static final boolean SKIP_TESTS = !(OS.isMacOsX() || OS.isLinux() || OS.isWindows())
+
 }
