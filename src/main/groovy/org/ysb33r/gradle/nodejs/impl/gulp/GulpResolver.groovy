@@ -16,47 +16,19 @@ package org.ysb33r.gradle.nodejs.impl.gulp
 
 import groovy.transform.CompileStatic
 import org.gradle.api.Project
-import org.ysb33r.gradle.nodejs.impl.npm.NpmExecutor
-import org.ysb33r.gradle.olifant.exec.AbstractCommandExecSpec
-import org.ysb33r.gradle.olifant.exec.ResolvedExecutable
-import org.ysb33r.gradle.olifant.exec.ResolvedExecutableFactory
+import org.ysb33r.gradle.nodejs.pkgwrapper.AbstractPackageResolver
+import org.ysb33r.gradle.nodejs.NodeJSExtension
+import org.ysb33r.gradle.nodejs.NpmExtension
 
 /**
  *
  * @since 0.1
  */
 @CompileStatic
-class GulpResolver extends AbstractCommandExecSpec {
+class GulpResolver extends AbstractPackageResolver {
 
-    GulpResolver(Project project) {
-        super(project)
-        registerExecutableKeyActions('version',new Version(project))
+    GulpResolver(Project project, NodeJSExtension nodeExtension, NpmExtension npmExtension) {
+        super(null,'gulp',project,nodeExtension,npmExtension)
     }
 
-    private static class Version implements ResolvedExecutableFactory {
-
-        Version(Project project) {
-            this.project = project
-        }
-
-        /** Creates {@link ResolvedExecutable} from a Gulp tag.
-         *
-         * @param options Ignored
-         * @param from Anything convertible to a string that contains a valid Gulp tag.
-         * @return The resolved executable.
-         */
-        @Override
-        ResolvedExecutable build(Map<String, Object> options, Object from) {
-//            Downloader dnl = new Downloader(StringUtils.stringize(from),project)
-//            return new ResolvedExecutable() {
-//                @Override
-//                File getExecutable() {
-//                    Set<File> files = NpmExecutor.installNpmPackage()
-//                    dnl.getNpmExecutablePath()
-//                }
-//            }
-        }
-
-        private final Project project
-    }
 }

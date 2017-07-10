@@ -3,15 +3,17 @@
 These plugins are available from the plugin portal. Add the appropriate plugin identifiers to your `build.gradle` file depending on the type of functionality you require.
 
 .build.gradle
-[source,groovy,subs=attributes]
+[source,groovy,subs="attributes,callouts"]
 ----
 plugins {
-  id 'org.ysb33r.nodejs.base' version '{revnumber}' // <1>
-  id 'org.ysb33r.nodejs.npm' version '{revnumber}' // <2>
+  id 'org.ysb33r.nodejs.base'  version '{revnumber}'  // <1>
+  id 'org.ysb33r.nodejs.npm'   version '{revnumber}'  // <2>
+  id 'org.ysb33r.nodejs.gulp'  version '{revnumber}'  // <3>
 }
 ----
 <1> Base plugin
 <2> Support for using NPM
+<3> Support for using Gulp
 
 NOTE: You need at least Gradle 3.3 to use these plugins.
 
@@ -27,7 +29,7 @@ The base plugin provides:
 
 The NPM plugin provides:
 
-* <<npm-defaults,npm>> extension
+* <<npm-defaults,npm>> extension.
 * <<npmtask,NpmTask>> type.
 * `npmexec` project extension to run NPM commands.
 * `npm`, `npmDevOnly`, `npmOptional` configurations.
@@ -38,5 +40,9 @@ Applying the NPM plugin will apply the base plugin.
 
 === Gulp plugin
 
+The Gulp plugin provides:
+
+* `gulp` project and task extensions
+* `GulpTask` task type.
 
 Applying the Gulp plugin will apply the NPM plugin.

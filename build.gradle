@@ -58,6 +58,10 @@ dependencies {
 
 }
 
+test {
+    systemProperties NODEJS_VERSION    : nodejsTestVersions[0]
+}
+
 gradleTest {
     // tag::gradleTestVersions[]
     versions '3.3', '3.5', '4.0'
@@ -78,7 +82,8 @@ license {
     excludes([
             '**/*.adoc', '**/*.md',
             '**/*.properties',
-            '**/*CompatibilitySpec.groovy'
+            '**/*CompatibilitySpec.groovy',
+            '**/*package.json'
     ])
 }
 

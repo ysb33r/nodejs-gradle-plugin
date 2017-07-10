@@ -16,15 +16,24 @@ package org.ysb33r.gradle.nodejs
 
 import groovy.transform.CompileStatic
 import org.gradle.api.Project
-import org.gradle.api.Task
 import org.ysb33r.gradle.nodejs.impl.gulp.GulpResolver
+import org.ysb33r.gradle.nodejs.pkgwrapper.AbstractPackageWrappingExtension
+import org.ysb33r.gradle.nodejs.tasks.GulpTask
 
 /** Extension that allows for setting of Gulp configuration at a project or task level.
+ *
+ * If no executable is set the default will be to install {@link #GulpExtension.GULP_DEFAULT} for a project extension. In the case of
+ * a task extension it will default to the project extension's settings.
+ *
  * @since 0.1
  */
 @CompileStatic
-class GulpExtension {
-    final static String NAME = 'gulpConfig'
+class GulpExtension extends AbstractPackageWrappingExtension<GulpResolver> {
+    final static String NAME = 'gulp'
+
+    /**
+     *  The default version of Gulp that will be used if nothing is configured.
+     */
     final static String GULP_DEFAULT = '3.9.1'
 
     /** Adds the extension to the project.
@@ -34,11 +43,12 @@ class GulpExtension {
      * @param project Project to link to.
      */
     GulpExtension(Project project) {
-        this.project = project
-        this.gulpResolver = new GulpResolver(project)
-//        this.gulpResolver.executable( version : GULP_DEFAULT )
-        this.workingDir = null
-        this.gulpfile = "${project.projectDir}/gulpfile.js"
+        super(project)
+        setResolver(createResolver())
+        setInstallGroup(NpmDependencyGroup.DEVELOPMENT)
+        executable( [version : GULP_DEFAULT] as Map<String,Object> )
+        this.gulpFile = "${project.projectDir}/gulpfile.js"
+        this.requires = []
     }
 
     /** Adds the extension to a {@link GulpTask} task.
@@ -48,46 +58,129 @@ class GulpExtension {
      *
      * @param task Task to be extended.
      */
-    GulpExtension(Task task) {
-        this.task = task
+    GulpExtension(GulpTask task) {
+        super(task)
     }
 
-    /** Sets gulp executable.
+    /** Appends more require specifications.
      *
-     * It can be passed by a single map option.
-     *
-     * <code>
-     *   // By tag (Gradle will download and cache the correct distribution).
-     *   executable tag : '3.9.1'
-     *
-     *   // By a physical path (
-     *   executable path : '/path/to/gulp'
-     * </code>
-     *
-     * If nothing is set the default will be to install {@link #GulpExtension.GULP_DEFAULT} for a project extension. In the case of
-     * a task extension it will default to the project extension's settings.
-     *
-     * @param opts Map taking one of the keys or methods mentioned above.
+     * @param reqs one of more require specifications
      */
-    void executable(final Map<String, Object> opts) {
-        if(gulpResolver == null) {
-            this.gulpResolver = new GulpResolver(getProject())
+    void requires(String... reqs) {
+        requires(reqs as List)
+    }
+
+    /** Appends more require specifications.
+     *
+     * @param reqs Iteratable list of package requirements
+     */
+    void requires(final Iterable<String> reqs) {
+        if(this.requires == null) {
+            setRequires(reqs)
+        } else {
+            this.requires.addAll(reqs)
         }
-        gulpResolver.executable(opts)
     }
 
-    /** Obtains the project this is directly or indirectly attached to.
+    /** Replace any existing require specifications with a new one.
      *
-     * @return Project instance. If this extension was attached to a task, the associated project for that task will be returned.
+     * @param reqs Iteratable list of package requirements.
      */
-    private Project getProject() {
-        this.project ?: task.project
+    void setRequires(final Iterable<String> reqs) {
+        if(this.requires==null) {
+            this.requires= []
+        } else {
+            this.requires.clear()
+        }
+        this.requires.addAll(reqs)
     }
 
-    private Project project
-    private Task task
-    private GulpResolver gulpResolver
-    private Object workingDir
-    private Object gulpfile
+    /** Get set of requires that will be passed to Gulp.
+     *
+     * <p> This is the same as the {@code --requires} command-line.
+     *
+     * @return An iterable list of require specifications. If the extension is attached to a task and the list is null, the
+     *   project extension will be queried. To override the list from the project extension with an empty list call
+     *   {@link #setRequires} with an empty list
+     */
+    Iterable<String> getRequires() {
+        if(task) {
+            this.requires != null ? this.requires : projectExtension.requires
+        } else {
+            this.requires
+        }
+    }
+
+    /** Sets the location of {@code gulpFile.js}
+     *
+     * @param gulpFileLocation
+     */
+    void gulpFile(Object gulpFileLocation) {
+        setGulpFile(gulpFileLocation)
+    }
+
+    /** Sets the location of {@code gulpFile.js}
+     *
+     * @param gulpFileLocation
+     */
+    void setGulpFile(Object gulpFileLocation) {
+        this.gulpFile  = gulpFileLocation
+    }
+
+    /** The location of {@code gulpFile.js}.
+     *
+     * @return Returns location. If this is a project extension and the location was not
+     *  set {@code project.file("${project.projectDir}/gulpFile.js"} will be returned.
+     */
+    // tag::example-of-task-overriding1[]
+    File getGulpFile() {
+        if(task) { // <1>
+            this.gulpFile != null ? getProject().file(this.gulpFile) : projectExtension.getGulpFile()
+        } else {
+            getProject().file(this.gulpFile)
+        }
+    }
+    // end::example-of-task-overriding1[]
+
+    /** Returns the name by which the extension is known.
+     *
+     * @return Extension name. Never null.
+     */
+    @Override
+    protected String getExtensionName() {
+        NAME
+    }
+
+    /** The entrypoint path relative to the installed package folder
+     *
+     * @return {@code bin/gulp.js}
+     */
+    @Override
+    protected String getEntryPoint() {
+        'bin/gulp.js'
+    }
+
+    /** Creates a resolver for this specific extension
+     *
+     * @return Resolver
+     */
+    @Override
+    protected GulpResolver createResolver() {
+        new GulpResolver(getProject(),getNodeJSExtension(),getNpmExtension())
+    }
+
+
+    /** Returns the version of the extension that is attached to a project.
+     *
+     * @return Project extension.
+     */
+    // tag::example-of-task-overriding2[]
+    private GulpExtension getProjectExtension() {
+        task ? (GulpExtension)getProject().extensions.getByName(NAME) : this  // <2>
+    }
+    // end::example-of-task-overriding2[]
+
+    private Object gulpFile
+    private Set<String> requires
 
 }

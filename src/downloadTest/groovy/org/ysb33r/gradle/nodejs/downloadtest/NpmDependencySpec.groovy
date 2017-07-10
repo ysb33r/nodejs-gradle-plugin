@@ -12,11 +12,11 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs
+package org.ysb33r.gradle.nodejs.downloadtest
 
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
-import org.ysb33r.gradle.nodejs.helper.DownloadTestSpecification
+import org.ysb33r.gradle.nodejs.downloadtest.helper.DownloadTestSpecification
 import org.ysb33r.gradle.nodejs.impl.npm.NpmExecutor
 
 class NpmDependencySpec extends DownloadTestSpecification {
@@ -31,7 +31,7 @@ class NpmDependencySpec extends DownloadTestSpecification {
            apply plugin : 'org.ysb33r.nodejs.npm'
 
            nodejs {
-               executable version : NODEJS_VERSION
+               executable version : DownloadTestSpecification.NODEJS_VERSION
            }
 
            // tag::declare-npm-dependency[]

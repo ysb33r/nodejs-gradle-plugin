@@ -96,7 +96,7 @@ class NpmExecutor {
      *
      * @sa {@link https://docs.npmjs.com/cli/install}
      */
-    static Set<File> installNpmPackage(
+    static FileTree installNpmPackage(
         final Project project,
         final NpmPackageDescriptor npmPackageDescriptor,
         final NpmDependencyGroup installGroup,
@@ -127,7 +127,7 @@ class NpmExecutor {
      *
      * @sa {@link https://docs.npmjs.com/cli/install}
      */
-    static Set<File> installNpmPackage(
+    static FileTree installNpmPackage(
         final Project project,
         final NodeJSExtension nodeJSExtension,
         final NpmExtension npmExtension,
@@ -145,7 +145,6 @@ class NpmExecutor {
 
         String scope = npmPackageDescriptor.scope ? "@${npmPackageDescriptor.scope}/" : ''
         FileTree fileTree = project.fileTree("${execSpec.workingDir}/node_modules/${scope}${npmPackageDescriptor.packageName}")
-        fileTree.files
     }
 
     /** Inatalls packages from a {@code package.json} description.
@@ -292,15 +291,16 @@ class NpmExecutor {
             return null
         }
 
-        String root = npmExtension.homeDirectory.absolutePath
+        String root = new File(npmExtension.homeDirectory,'node_modules').absolutePath
         Set<String> pkgDirectories = pkgNames.collect { String name ->
-            "${root}/${name}"
-        }
+            "${root}/${name}".toString()
+        } as Set
 
         FileTree tree = project.fileTree( project.files(pkgDirectories) )
         for (String dir : pkgDirectories) {
             File nextPackageJson = new File(root,'package.json')
             if(nextPackageJson.exists()) {
+                project.logger.debug "Processing '${nextPackageJson}' for NPM dependencies"
                 FileTree nextCollection = calculateInstallableFiles(project,npmExtension,nextPackageJson)
                 if(nextCollection != null) {
                     tree.add(nextCollection)

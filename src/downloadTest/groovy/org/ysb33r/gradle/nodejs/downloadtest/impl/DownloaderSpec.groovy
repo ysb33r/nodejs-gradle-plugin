@@ -12,12 +12,13 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs.impl
+package org.ysb33r.gradle.nodejs.downloadtest.impl
 
 import org.gradle.api.Project
 import org.gradle.process.ExecResult
 import org.gradle.testfixtures.ProjectBuilder
-import org.ysb33r.gradle.nodejs.helper.DownloadTestSpecification
+import org.ysb33r.gradle.nodejs.downloadtest.helper.DownloadTestSpecification
+import org.ysb33r.gradle.nodejs.impl.Downloader
 import spock.lang.IgnoreIf
 
 
@@ -28,15 +29,15 @@ class DownloaderSpec extends DownloadTestSpecification {
     @IgnoreIf({ DownloadTestSpecification.SKIP_TESTS })
     def "Download a NodeJS distribution" () {
         given: "A requirement to download NodeJS #NODEJS_VERSION"
-        Downloader dwn = new Downloader(NODEJS_VERSION,project)
+        Downloader dwn = new Downloader(DownloadTestSpecification.NODEJS_VERSION,project)
         dwn.downloadRoot = new File(project.buildDir,'download')
-        dwn.baseURI = NODEJS_CACHE_DIR.toURI()
+        dwn.baseURI = DownloadTestSpecification.NODEJS_CACHE_DIR.toURI()
 
         when: "The distribution root is requested"
         File gotIt = dwn.distributionRoot
 
-        String node = OS.windows ? 'node.exe' : 'bin/node'
-        String npm = OS.windows ? 'npm.cmd' : 'bin/npm'
+        String node = DownloadTestSpecification.OS.windows ? 'node.exe' : 'bin/node'
+        String npm = DownloadTestSpecification.OS.windows ? 'npm.cmd' : 'bin/npm'
 
         then: "The distribution is downloaded and unpacked"
         gotIt != null

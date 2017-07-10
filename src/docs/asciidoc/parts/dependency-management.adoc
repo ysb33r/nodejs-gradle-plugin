@@ -1,4 +1,4 @@
-== Dependency Management
+== Dependency management
 
 The NPM plugin adds a `npmPackage` extention that can be used inside the `dependencies` block to add NPM dependencies. For convenience it can be used along with the `npm` configuration that is also added by the same plugin, however nothing prevents you from adding NPM dependencies to other configurations as well.
 

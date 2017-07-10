@@ -1,5 +1,5 @@
 [[alternatives]]
-== Alternatives
+== Alternative solutions
 
 This is not the only solution. You might also want to look at
 

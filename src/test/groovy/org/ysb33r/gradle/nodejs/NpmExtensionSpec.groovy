@@ -17,22 +17,11 @@ package org.ysb33r.gradle.nodejs
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
+import org.ysb33r.gradle.nodejs.helper.UnittestBaseSpecification
 import org.ysb33r.gradle.nodejs.plugins.NodeJSBasePlugin
 import spock.lang.Specification
 
-class NpmExtensionSpec extends Specification {
-
-    Project project = ProjectBuilder.builder().build()
-
-    void setup() {
-        project.allprojects {
-            apply plugin : 'org.ysb33r.nodejs.npm'
-
-            nodejs {
-                executable version : '7.10.0'
-            }
-        }
-    }
+class NpmExtensionSpec extends UnittestBaseSpecification {
 
     def 'Use default NPM version'() {
         expect:

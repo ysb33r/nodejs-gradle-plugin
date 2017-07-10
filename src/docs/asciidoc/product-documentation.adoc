@@ -6,16 +6,22 @@
 :source-highlighter: coderay
 :sourcedir: {includetopdir}/src/main/groovy/org/ysb33r/gradle/nodejs
 :testdir: {includetopdir}/src/test/groovy/org/ysb33r/gradle/nodejs
-:downloadtestdir: {includetopdir}/src/downloadTest/groovy/org/ysb33r/gradle/nodejs
+:downloadtestdir: {includetopdir}/src/downloadTest/groovy/org/ysb33r/gradle/nodejs/downloadtest
 :groovydoc: ../api/org/ysb33r/gradle/nodejs
 
 include::parts/introduction.adoc[]
 
+include::parts/alternatives.adoc[]
+
 include::parts/bootstrap.adoc[]
+
+= Working with Node
 
 include::parts/configure-node-defaults.adoc[]
 
 include::parts/platform-installation-support.adoc[]
+
+= Working with NPM
 
 include::parts/configure-npm-defaults.adoc[]
 
@@ -23,6 +29,14 @@ include::parts/dependency-management.adoc[]
 
 include::parts/npmtask.adoc[]
 
+= Working with Gulp
+
+include::parts/gulp.adoc[]
+
+= Advanced Topics
+
+include::parts/wrapping-npm-package.adoc[]
+
 include::parts/tips-and-tricks.adoc[]
 
-include::parts/alternatives.adoc[]
+

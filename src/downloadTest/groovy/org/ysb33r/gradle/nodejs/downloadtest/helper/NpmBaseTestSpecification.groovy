@@ -12,18 +12,30 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs
+package org.ysb33r.gradle.nodejs.downloadtest.helper
 
-import groovy.transform.CompileStatic
 import org.gradle.api.Project
-import org.ysb33r.gradle.nodejs.impl.gulp.GulpResolver
+import org.gradle.testfixtures.ProjectBuilder
+import org.ysb33r.gradle.nodejs.impl.Downloader
 
-/**
- * @since 0.1
- */
-@CompileStatic
-class GulpExecSpec extends GulpResolver {
-    GulpExecSpec(Project project) {
-        super(project)
+class NpmBaseTestSpecification extends DownloadTestSpecification {
+
+    Project project = ProjectBuilder.builder().build()
+
+    void setup() {
+        Downloader.baseURI = DownloadTestSpecification.NODEJS_CACHE_DIR.toURI()
+
+        project.allprojects {
+            apply plugin: 'org.ysb33r.nodejs.npm'
+
+            nodejs {
+                executable version: DownloadTestSpecification.NODEJS_VERSION
+            }
+
+            npm {
+
+            }
+        }
     }
+
 }

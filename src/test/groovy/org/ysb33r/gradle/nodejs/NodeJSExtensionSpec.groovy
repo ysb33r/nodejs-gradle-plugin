@@ -21,7 +21,7 @@ import org.ysb33r.gradle.nodejs.plugins.NodeJSBasePlugin
 import spock.lang.Specification
 
 
-class NodeJsExtensionSpec extends Specification {
+class NodeJSExtensionSpec extends Specification {
 
     Project project = ProjectBuilder.builder().build()
 

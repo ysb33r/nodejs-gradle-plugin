@@ -114,7 +114,7 @@ class NpmSelfResolvingDependency extends NpmDependency implements FileCollection
             this,
             installGroup,
             [] as List<String>
-        )
+        ).files
     }
 
     @Override

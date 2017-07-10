@@ -12,7 +12,7 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs.helper
+package org.ysb33r.gradle.nodejs.downloadtest.helper
 
 import org.ysb33r.gradle.olifant.OperatingSystem
 import spock.lang.Specification

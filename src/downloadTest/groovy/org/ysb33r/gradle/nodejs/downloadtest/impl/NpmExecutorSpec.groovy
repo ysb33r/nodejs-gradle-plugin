@@ -12,13 +12,14 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs.impl
+package org.ysb33r.gradle.nodejs.downloadtest.impl
 
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.ysb33r.gradle.nodejs.NpmDependency
 import org.ysb33r.gradle.nodejs.NpmDependencyGroup
-import org.ysb33r.gradle.nodejs.helper.DownloadTestSpecification
+import org.ysb33r.gradle.nodejs.downloadtest.helper.DownloadTestSpecification
+import org.ysb33r.gradle.nodejs.impl.Downloader
 import org.ysb33r.gradle.nodejs.impl.npm.NpmExecutor
 import spock.lang.Unroll
 
@@ -30,7 +31,7 @@ class NpmExecutorSpec extends DownloadTestSpecification {
     Project project = ProjectBuilder.builder().build()
 
     void setup() {
-        Downloader.baseURI = NODEJS_CACHE_DIR.toURI()
+        Downloader.baseURI = DownloadTestSpecification.NODEJS_CACHE_DIR.toURI()
 
         project.allprojects {
             apply plugin: 'org.ysb33r.nodejs.npm'
@@ -56,7 +57,7 @@ class NpmExecutorSpec extends DownloadTestSpecification {
             new NpmDependency('stringz','0.2.2'),
             group,
             []
-        )
+        ).files
         File pkgroot = new File(project.projectDir,'node_modules/stringz')
 
         then:
@@ -74,7 +75,7 @@ class NpmExecutorSpec extends DownloadTestSpecification {
     def 'Install a set of dependencies from a package.json file'() {
         setup:
         File packageJson = new File(project.projectDir,'package.json')
-        Files.copy( new File(RESOURCES_DIR,'installtest-package.json').toPath(),packageJson.toPath(),StandardCopyOption.COPY_ATTRIBUTES)
+        Files.copy( new File(DownloadTestSpecification.RESOURCES_DIR,'installtest-package.json').toPath(),packageJson.toPath(),StandardCopyOption.COPY_ATTRIBUTES)
 
         when:
         NpmExecutor.installPackagesFromDescription(

@@ -1,12 +1,12 @@
 [[npm-defaults]]
-== Configure NPM Defaults
+== Configure global NPM defaults
 
 The location of `npm-cli.js` can be supplied in four possible ways:
 
 .build.gradle
 [source,groovy]
 ----
-include::{testdir}/NpmExtensionSpec.groovy[tags=configure-with-version,indent=0]
+include::{testdir}/NpmExtensionSpec.groovy[tags=configure-with-tag,indent=0]
 
 include::{testdir}/NpmExtensionSpec.groovy[tags=configure-with-path,indent=0]
 

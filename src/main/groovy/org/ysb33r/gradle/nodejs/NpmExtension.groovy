@@ -51,7 +51,7 @@ class NpmExtension {
      *
      * @param task Task to be extended.
      */
-    NpmExtension(NpmTask task) {
+    NpmExtension(Task task) {
         this.task = task
     }
 

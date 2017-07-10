@@ -12,12 +12,12 @@
 // ============================================================================
 //
 
-package org.ysb33r.gradle.nodejs
+package org.ysb33r.gradle.nodejs.downloadtest
 
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.testfixtures.ProjectBuilder
-import org.ysb33r.gradle.nodejs.helper.DownloadTestSpecification
+import org.ysb33r.gradle.nodejs.downloadtest.helper.DownloadTestSpecification
 import org.ysb33r.gradle.nodejs.impl.Downloader
 import org.ysb33r.gradle.nodejs.tasks.NpmTask
 
@@ -26,7 +26,7 @@ class NpmTaskExecutionSpec extends DownloadTestSpecification {
     Project project = ProjectBuilder.builder().build()
 
     void setup() {
-        Downloader.baseURI = NODEJS_CACHE_DIR.toURI()
+        Downloader.baseURI = DownloadTestSpecification.NODEJS_CACHE_DIR.toURI()
 
         project.allprojects {
             apply plugin: 'org.ysb33r.nodejs.npm'
