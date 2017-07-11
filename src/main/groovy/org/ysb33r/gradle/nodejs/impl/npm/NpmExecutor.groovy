@@ -37,8 +37,8 @@ class NpmExecutor {
     /** Configures an NpmExecSpec from a NodeJSExtensions and a NpmExtension.
      *
      * <p> Will set {@code npm_config_userconfig} and {@code npm_config_globalconfig}
-     *   environmental variables. If the working directory was not set previsouly, it
-     *   will set it to the {@code homeDirectory} as deifned by the {@link NpmExtension}.
+     *   environmental variables. The working directoryis set it to the {@code homeDirectory}
+     *   as defined by the {@link NpmExtension}.
      *
      * @param execSpec NPM execution spec that needs configuration.
      * @param nodeJS An {@link NodeJSExtension}
@@ -53,9 +53,7 @@ class NpmExecutor {
             execSpec.setExecutable(  resolver )
         }
 
-        if(execSpec.workingDir == null) {
-            execSpec.workingDir npm.homeDirectory
-        }
+        execSpec.workingDir npm.homeDirectory
 
         execSpec.environment  npm_config_userconfig : npm.localConfig.absolutePath,
             npm_config_globalconfig : npm.globalConfig.absolutePath
@@ -77,7 +75,8 @@ class NpmExecutor {
         Closure runner = { NpmExecSpec fromSpec, ExecSpec toSpec ->
             fromSpec.copyToExecSpec(toSpec)
         }
-
+        project.logger.debug "NPM uses ${execSpec.workingDir}"
+        project.logger.debug "NPM environment: ${execSpec.environment}"
         project.exec runner.curry(execSpec)
     }
 

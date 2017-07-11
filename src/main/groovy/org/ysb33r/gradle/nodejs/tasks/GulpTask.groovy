@@ -14,15 +14,14 @@
 
 package org.ysb33r.gradle.nodejs.tasks
 
-import org.gradle.api.DefaultTask
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 import org.gradle.api.logging.LogLevel
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import org.ysb33r.gradle.nodejs.GulpExtension
 import org.ysb33r.gradle.nodejs.NodeJSExecSpec
-import org.ysb33r.gradle.nodejs.NodeJSExtension
-import org.ysb33r.gradle.nodejs.NpmExtension
 import org.ysb33r.gradle.nodejs.impl.NodeJSExecutor
 
 /** Ability to run a Gulp task.
@@ -32,12 +31,11 @@ import org.ysb33r.gradle.nodejs.impl.NodeJSExecutor
  *
  * @since 0.1
  */
-class GulpTask extends DefaultTask {
+@CompileStatic
+class GulpTask extends AbstractNodeBaseTask {
 
     GulpTask() {
         super()
-        npmExtension = (NpmExtension)(extensions.create(NpmExtension.NAME,NpmExtension,this))
-        nodeExtension = (NodeJSExtension)(extensions.create(NodeJSExtension.NAME,NodeJSExtension,this))
         gulpExtension = (GulpExtension)(extensions.create(GulpExtension.NAME,GulpExtension,this))
 
         inputs.property 'requires', {
@@ -100,12 +98,15 @@ class GulpTask extends DefaultTask {
             execSpec.scriptArgs taskToRun
         }
 
+        run execSpec
+    }
+
+    @CompileDynamic
+    private void run(NodeJSExecSpec execSpec) {
         project.nodeexec execSpec
     }
 
     private String taskToRun
-    private final NpmExtension npmExtension
-    private final NodeJSExtension nodeExtension
     private final GulpExtension gulpExtension
 
 }
