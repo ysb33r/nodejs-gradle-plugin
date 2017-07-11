@@ -2,12 +2,17 @@
 // https://raw.githubusercontent.com/robfletcher/gradle-compass/master/gradle/download-tests.gradle
 
 ext {
+
+    codedJSVersion = (file('src/main/groovy/org/ysb33r/gradle/nodejs/NodeJSExtension.groovy').readLines().grep {
+        it =~ /static\s+final\s+String\s+NODEJS_DEFAULT\s+=/
+    })[0].replaceFirst(~/^(.+?["'])/,'').replaceFirst(~/(["'].*)$/,'')
+
     currentOS =  org.gradle.internal.os.OperatingSystem.current()
     nodejsTestCacheDir = "${buildDir}/nodejs-binaries"
     npmTestCacheDir = "${nodejsTestCacheDir}/npm"
 
     // Always list the primary test version as the first one in this list.
-    nodejsTestVersions = [ '7.10.0','6.10.3' ]
+    nodejsTestVersions = [ codedJSVersion, '7.10.0','6.10.3' ]
 
 }
 

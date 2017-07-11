@@ -32,6 +32,11 @@ class NodeJSExtension {
 
     static final String NAME = 'nodejs'
 
+    /** The default version of Node.js that will be used on
+     * a supported platform if nothing else is configured.
+     */
+    static final String NODEJS_DEFAULT = '8.1.3'
+
     /** Constructs a new extension which is attached to the provided project.
      *
      * @param project Project this extensionm is associated with.
@@ -39,6 +44,7 @@ class NodeJSExtension {
     NodeJSExtension(Project project) {
         this.project = project
         this.nodeResolver = new NodeJSDistributionResolver(project)
+        executable([ version : NODEJS_DEFAULT ] as Map<String,Object>)
     }
 
     /** Constructs a new extension which is attached to the provided task.

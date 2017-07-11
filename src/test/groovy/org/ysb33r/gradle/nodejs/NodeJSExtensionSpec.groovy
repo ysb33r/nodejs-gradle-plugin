@@ -79,18 +79,6 @@ class NodeJSExtensionSpec extends Specification {
         project.nodejs.nodeResolver != null
     }
 
-    def 'NodeJS executable must be configured'() {
-
-        when: 'No tag is configured'
-        project.apply plugin : NodeJSBasePlugin
-
-        and: 'The executable path is requested'
-        project.nodejs.getResolvedNodeExecutable()
-
-        then: 'An exception is raised'
-        thrown(GradleException)
-    }
-
     def 'Cannot configure NodeJS with more than one option'() {
 
         when:

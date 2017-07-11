@@ -1,8 +1,8 @@
 == Introduction
 
-Like many software projects, frameworks, plugins they start off becasue the author could not find a solution that really fitted their needs and submitting pull requests to existing projects would not have changed the direction of such projects to the needs of the author. This is one of those kind of projects and it is offered against a number of <<alternatives,alternative solutions>> that are available as Gradle plugins.
+Like many software projects, frameworks, plugins they start off because the author could not find a solution that really fitted their needs and submitting pull requests to existing projects would not have changed the direction of such projects to the needs of the author. This is one of those kind of projects and it is offered against a number of <<alternatives,alternative solutions>> that are available as Gradle plugins.
 
-The aim with the group of plugins is making the integration of Node.js and related technologies into the build automation pipeline as smooth as possible. This brought with it a number of subgoals:
+The aim with the group of plugins is making the integration of https://nodejs.org[Node.js] and related technologies into the build automation pipeline as smooth as possible. This brought with it a number of subgoals:
 
 * Simplicity to use defaults - convention over configuration
 * Maximum flexibility if you need it.
