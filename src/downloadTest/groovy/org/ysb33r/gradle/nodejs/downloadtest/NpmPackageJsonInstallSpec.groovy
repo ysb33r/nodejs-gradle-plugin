@@ -24,5 +24,5 @@ class NpmPackageJsonInstallSpec extends NpmBaseTestSpecification {
         new File(project.projectDir,'node_modules/websocket-extensions').exists()
         new File(project.projectDir,'node_modules/lru-cache').exists()
     }
-
 }
+
