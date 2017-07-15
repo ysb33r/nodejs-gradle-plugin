@@ -18,7 +18,7 @@ matrix:
     - oraclejdk8
     - oraclejdk7
   - os: osx
-    osx_image: xcode8.3jdk:
+    osx_image: xcode8.3jdk
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
