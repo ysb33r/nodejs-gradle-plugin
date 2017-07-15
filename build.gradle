@@ -5,14 +5,15 @@ plugins {
     id 'org.asciidoctor.convert' version '1.5.3'
     id 'com.gradle.plugin-publish' version '0.9.4'
     id 'com.github.hierynomus.license' version '0.14.0'
-    id 'net.ossindex.audit' version '0.1.1'
 }
 
 version = '0.1-SNAPSHOT'
 group = 'org.ysb33r.gradle'
+targetCompatibility = 1.7
+sourceCompatibility = 1.7
 
 ext {
-    grolifantVer = '0.3.1-SNAPSHOT'
+    grolifantVer = '0.3.1'
     spockGroovyVer = GroovySystem.version.replaceAll(/\.\d+$/,'')
     notSnapshot = { !version.endsWith('-SNAPSHOT') }
 }
