@@ -45,10 +45,10 @@ class Downloader extends AbstractDistributionInstaller {
     URI uriFromVersion(final String ver) {
         String variant
         if(OS.windows) {
-            if(OS.arch == X86_64) {
-                variant = 'win-x64.zip'
-            } else {
+            if(OS.arch == X86) {
                 variant = 'win-x86.zip'
+            } else {
+                variant = 'win-x64.zip'
             }
         } else if(OS.linux) {
             String arch
