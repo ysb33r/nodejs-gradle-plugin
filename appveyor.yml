@@ -16,6 +16,7 @@ branches:
 
 cache:
   - C:\Users\appveyor\.gradle
+  - C:\projects\nodejs-gradle-plugin\build\nodejs-binaries
 
 environment:
   matrix:
