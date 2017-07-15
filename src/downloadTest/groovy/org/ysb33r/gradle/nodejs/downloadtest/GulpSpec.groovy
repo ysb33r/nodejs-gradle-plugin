@@ -27,7 +27,7 @@ class GulpSpec extends NpmBaseTestSpecification {
     def 'Create task and run Gulp task'() {
         setup:
         File gulpScript = new File(project.projectDir,'gulpFile.js')
-        Files.copy( new File(DownloadTestSpecification.RESOURCES_DIR,'simple-gulpFile.js').toPath(),gulpScript.toPath(),StandardCopyOption.COPY_ATTRIBUTES)
+        Files.copy( new File(DownloadTestSpecification.RESOURCES_DIR,'simple-gulpfile.js').toPath(),gulpScript.toPath(),StandardCopyOption.COPY_ATTRIBUTES)
 
         project.allprojects {
             apply plugin : 'org.ysb33r.nodejs.gulp'
