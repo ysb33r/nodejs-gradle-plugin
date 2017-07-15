@@ -48,7 +48,7 @@ class Downloader extends AbstractDistributionInstaller {
             if(OS.arch == X86_64) {
                 variant = 'win-x64.zip'
             } else {
-                variant = 'win-86.zip'
+                variant = 'win-x86.zip'
             }
         } else if(OS.linux) {
             String arch
