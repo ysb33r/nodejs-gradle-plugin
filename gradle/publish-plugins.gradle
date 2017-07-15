@@ -1,5 +1,4 @@
 pluginBundle {
-    description = 'Doxygen plugin for Gradle'
     website     = 'https://ysb33r.github.io/nodejs-gradle-plugin'
     vcsUrl      = 'https://github.com/ysb33r/nodejs-gradle-plugin.git'
 
@@ -11,11 +10,17 @@ pluginBundle {
             description = 'Provides Node.js and NPM tasks. No need to have Node.js installed as plugin will take care of caching and installation in a similar fashion as to have Gradle distributions are cached'
             tags = ['nodeJS','node.js','npm','javascript']
         }
-        nodejsPlugin {
-            id = 'org.ysb33r.nodejs'
-            displayName = 'NodeJS plugin'
-            description = 'Provides additional conventions for Node.js'
+        npmPlugin {
+            id = 'org.ysb33r.nodejs.npm'
+            displayName = 'NPM plugin'
+            description = 'Provides NPM functionality including project caching and installaton without affecting any global installations'
             tags = ['nodeJS','node.js','npm','javascript']
+        }
+        npmPlugin {
+            id = 'org.ysb33r.nodejs.gulp'
+            displayName = 'Gulp plugin'
+            description = 'Provides Gulp functionality without affecting any global installations'
+            tags = ['nodeJS','node.js','gulp','javascript']
         }
     }
 
