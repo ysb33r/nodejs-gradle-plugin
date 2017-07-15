@@ -21,8 +21,8 @@ class NpmPackageJsonInstallSpec extends NpmBaseTestSpecification {
         installFiles.execute()
 
         then:
-        new File(project.projectDir,'node_modules/websocket-extensions').exists()
-        new File(project.projectDir,'node_modules/lru-cache').exists()
+        new File(project.projectDir,'node_modules/brace-expansion').exists()
+        new File(project.projectDir,'node_modules/concat-map').exists()
     }
 }
 
