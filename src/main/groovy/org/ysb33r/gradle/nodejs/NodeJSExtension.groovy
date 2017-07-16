@@ -108,9 +108,9 @@ class NodeJSExtension {
                 if(OperatingSystem.current().windows) {
                     root= resolvedNodeExecutable.executable.parentFile
                 } else {
-                    root= resolvedNodeExecutable.executable.parentFile.parentFile
+                    root= new File(resolvedNodeExecutable.executable.parentFile.parentFile,'lib')
                 }
-                new File(root,'lib/node_modules/npm/bin/npm-cli.js')
+                new File(root,'node_modules/npm/bin/npm-cli.js')
             }
         }
     }

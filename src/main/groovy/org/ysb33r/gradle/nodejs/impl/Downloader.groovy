@@ -21,8 +21,21 @@ import org.ysb33r.gradle.olifant.OperatingSystem
 import static org.ysb33r.gradle.olifant.OperatingSystem.Arch.*
 
 /** Downloads specific versions of NodeJS.
- * Currently limited to Windows (x86, x86_64), MacOS, Linux (x86, x86_64, ARMv6-8). There are more
- * binary packages are available from the NodeJS site, but currently these are not being tested. (Patches welcome!)
+ * Currently limited to Windows (x86, x86_64), MacOS, Linux (x86, x86_64).
+ * 
+ * <p> There are more
+ * binary packages are available from the NodeJS site, but currently these are not being tested not implemented.
+ * This includes:
+ * 
+ * <ul>
+ *    <li> linux-armv6l.tar.xz
+ *    <li> linux-armv7l.tar.xz
+ *    <li> linux-arm64.tar.xz
+ *    <li> linux-ppc64le.tar.xz
+ *    <li> linux-ppc64.tar.xz
+ *    <li> linux-s390x.tar.xz
+ * </ul>
+ * <p> (Patches welcome!)
  */
 @CompileStatic
 class Downloader extends AbstractDistributionInstaller {
@@ -60,12 +73,6 @@ class Downloader extends AbstractDistributionInstaller {
                     arch = 'x86'
                     break
             }
-//            'linux-armv6l.tar.xz'
-//            'linux-armv7l.tar.xz'
-//            'linux-arm64.tar.xz'
-//            'linux-ppc64le.tar.xz'
-//            'linux-ppc64.tar.xz'
-//            'linux-s390x.tar.xz'
             if(arch) {
                 variant = "linux-${arch}.tar.xz"
             }
@@ -93,41 +100,20 @@ class Downloader extends AbstractDistributionInstaller {
         }
     }
 
-    /** Returns the path to the included {@code npm} executable.
+    /** Returns the path to the included {@code npm-cli.js} Node.js executable JavaScript.
      * Will force a download if not already downloaded.
      *
-     * @return Location of {@code npm} or null if not a supported operating system.
+     * @return Location of {@code npm-vli.js} or null if not a supported operating system.
      */
     File getNpmExecutablePath() {
         File root = getDistributionRoot()
         if(root == null) {
             return null
         } else if(OS.windows) {
-            new File(root,'npm.cmd')
+            new File(root,'node_modules/npm/bin/npm-cli.js')
         } else {
-            new File(root,'bin/npm')
+            new File(root,'../lib/node_modules/npm/bin/npm-cli.js')
         }
     }
-
-//    /** Adds a special verification case for Doxygen Windows binaries.
-//     *
-//     * The Windows distribution is not zipped into a subfolder and needs extra care.
-//     * For Linux & MacOsX it will use the default implementation.
-//     *
-//     * @param distDir Directory where distribution was unpacked to.
-//     * @param distributionDescription A human-readable description
-//     * @return Distribution directory
-//     */
-//    @Override
-//    protected File getAndVerifyDistributionRoot(File distDir, String distributionDescription) {
-//        if(OS.windows) {
-//            if (!new File(distDir,'doxygen.exe').exists()) {
-//                throw new DistributionFailedException("Doxygen '${distributionDescription}' does not contain 'doxygen.exe'.")
-//            }
-//            return distDir
-//        } else {
-//            super.getAndVerifyDistributionRoot(distDir, distributionDescription)
-//        }
-//    }
 }
 
