@@ -26,7 +26,7 @@ class GulpSpec extends NpmBaseTestSpecification {
 
     def 'Create task and run Gulp task'() {
         setup:
-        File gulpScript = new File(project.projectDir,'gulpFile.js')
+        File gulpScript = new File(project.projectDir,'gulpfile.js')
         Files.copy( new File(DownloadTestSpecification.RESOURCES_DIR,'simple-gulpfile.js').toPath(),gulpScript.toPath(),StandardCopyOption.COPY_ATTRIBUTES)
 
         project.allprojects {

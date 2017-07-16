@@ -111,7 +111,7 @@ class GulpExtension extends AbstractPackageWrappingExtension<GulpResolver> {
         }
     }
 
-    /** Sets the location of {@code gulpFile.js}
+    /** Sets the location of {@code gulpfile.js}
      *
      * @param gulpFileLocation
      */
@@ -119,7 +119,7 @@ class GulpExtension extends AbstractPackageWrappingExtension<GulpResolver> {
         setGulpFile(gulpFileLocation)
     }
 
-    /** Sets the location of {@code gulpFile.js}
+    /** Sets the location of {@code gulpfile.js}
      *
      * @param gulpFileLocation
      */
@@ -127,10 +127,10 @@ class GulpExtension extends AbstractPackageWrappingExtension<GulpResolver> {
         this.gulpFile  = gulpFileLocation
     }
 
-    /** The location of {@code gulpFile.js}.
+    /** The location of {@code gulpfile.js}.
      *
      * @return Returns location. If this is a project extension and the location was not
-     *  set {@code project.file("${project.projectDir}/gulpFile.js"} will be returned.
+     *  set {@code project.file("${project.projectDir}/gulpfile.js"} will be returned.
      */
     // tag::example-of-task-overriding1[]
     File getGulpFile() {

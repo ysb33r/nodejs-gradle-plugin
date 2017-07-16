@@ -67,7 +67,7 @@ class GulpTask extends AbstractNodeBaseTask {
         this.taskToRun = taskName
     }
 
-    /** The absolute path to {@code gulpFile.js} that will be used.
+    /** The absolute path to {@code gulpfile.js} that will be used.
      *
      * @return Absolute path as a string
      */
@@ -84,7 +84,7 @@ class GulpTask extends AbstractNodeBaseTask {
 
         execSpec.script gulpExtension.resolvedExecutable.executable.absolutePath
 
-        execSpec.scriptArgs '--gulpFile', getGulpPath()
+        execSpec.scriptArgs '--gulpfile', getGulpPath()
 
         if(project.logging.level == LogLevel.QUIET) {
             execSpec.scriptArgs '--silent'
