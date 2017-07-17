@@ -17,6 +17,7 @@ package org.ysb33r.gradle.nodejs.impl.npm
 import groovy.transform.CompileStatic
 import org.gradle.api.Project
 import org.ysb33r.gradle.nodejs.NpmExecSpec
+import org.ysb33r.gradle.nodejs.impl.NodeJSExecutor
 import org.ysb33r.gradle.olifant.exec.ExecSpecInstantiator
 
 /** Creates instances for {@link NpmExecSpec}
@@ -33,7 +34,10 @@ class NpmExecSpecInstantiator implements ExecSpecInstantiator<NpmExecSpec> {
      */
     @Override
     NpmExecSpec create(Project project) {
-        new NpmExecSpec(project)
+        NpmExecSpec execSpec = new NpmExecSpec(project)
+        execSpec.setEnvironment NodeJSExecutor.defaultEnvironment
+        return execSpec
+
     }
 
     /** An existing instance that can be used without concurrency issues.

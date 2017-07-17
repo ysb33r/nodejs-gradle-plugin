@@ -33,7 +33,9 @@ class NodeJSExecSpecInstantiator implements ExecSpecInstantiator<NodeJSExecSpec>
      */
     @Override
     NodeJSExecSpec create(Project project) {
-        new NodeJSExecSpec(project)
+        NodeJSExecSpec execSpec = new NodeJSExecSpec(project)
+        execSpec.setEnvironment NodeJSExecutor.defaultEnvironment
+        return execSpec
     }
 
     /** An existing instance that can be used without concurrency issues.
