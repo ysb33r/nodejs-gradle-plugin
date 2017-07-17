@@ -16,8 +16,11 @@ package org.ysb33r.gradle.nodejs.tasks
 
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
+import org.ysb33r.gradle.nodejs.NodeJSExecSpec
 import org.ysb33r.gradle.nodejs.NodeJSExtension
 import org.ysb33r.gradle.nodejs.NpmExtension
+import org.ysb33r.gradle.nodejs.impl.Downloader
+import org.ysb33r.gradle.nodejs.impl.NodeJSExecutor
 
 /** A base class that will provide NodeJS and NPM task extensions.
  *
@@ -30,6 +33,22 @@ class AbstractNodeBaseTask extends DefaultTask {
         super()
         npmExtension = (NpmExtension)(extensions.create(NpmExtension.NAME,NpmExtension,this))
         nodeExtension = (NodeJSExtension)(extensions.create(NodeJSExtension.NAME,NodeJSExtension,this))
+
+        this.environment = [:]
+        this.environment.putAll(NodeJSExecutor.defaultEnvironment)
+    }
+
+    void environment(Map<String,?> env) {
+        this.environment.putAll(env)
+    }
+
+    void setEnvironment(Map<String,?> env) {
+        this.environment.clear()
+        this.environment.putAll(env)
+    }
+
+    Map<String,Object> getEnvironment() {
+        this.environment
     }
 
     /** Internal access to attached NPM extension.
@@ -48,7 +67,15 @@ class AbstractNodeBaseTask extends DefaultTask {
         this.nodeExtension
     }
 
+    protected NodeJSExecSpec createExecSpec() {
+        NodeJSExecSpec execSpec = new NodeJSExecSpec(project)
+        NodeJSExecutor.configureSpecFromExtensions(execSpec,nodeExtension)
+        execSpec.workingDir(npmExtension.homeDirectory)
+        execSpec.setEnvironment(this.environment)
+        return execSpec
+    }
+
     private final NpmExtension npmExtension
     private final NodeJSExtension nodeExtension
-
+    private final Map<String,Object> environment
 }

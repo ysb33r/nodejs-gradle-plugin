@@ -61,4 +61,18 @@ class NodeJSExecutor {
         project.exec runner.curry(execSpec)
     }
 
+    /** Minimum default environment to use when running {@code node}
+     *
+      * @return Environment suitable for using in an execution specification.
+     */
+    static Map<String,Object> getDefaultEnvironment() {
+        if(Downloader.OS.windows) {
+            [
+                TEMP    : System.getenv('TEMP'),
+                TMP     : System.getenv('TMP')
+            ] as Map<String,Object>
+        } else {
+            [:] as Map<String,Object>
+        }
+    }
 }

@@ -78,9 +78,7 @@ class GulpTask extends AbstractNodeBaseTask {
 
     @TaskAction
     void exec() {
-        NodeJSExecSpec execSpec = new NodeJSExecSpec(project)
-        NodeJSExecutor.configureSpecFromExtensions(execSpec,nodeExtension)
-        execSpec.workingDir npmExtension.homeDirectory
+        NodeJSExecSpec execSpec = createExecSpec()
 
         execSpec.script gulpExtension.resolvedExecutable.executable.absolutePath
 
