@@ -58,6 +58,7 @@ class NodeJSExecutorSpec extends NpmBaseTestSpecification {
         execSpec.ignoreExitValue true
 
         NodeJSExecutor.configureSpecFromExtensions(execSpec,nodejs)
+        execSpec.environment NodeJSExecutor.defaultEnvironment
 
         project.allprojects {
             nodeexec execSpec
