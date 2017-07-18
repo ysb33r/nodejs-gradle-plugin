@@ -39,4 +39,3 @@ include::parts/wrapping-npm-package.adoc[]
 
 include::parts/tips-and-tricks.adoc[]
 
-

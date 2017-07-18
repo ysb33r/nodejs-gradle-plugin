@@ -11,4 +11,8 @@ The aim with the group of plugins is making the integration of https://nodejs.or
 * Allow other developers/contributors of your projects to build it with out fiddling with a big list of prerequisites.
 * Isolate builds from potential side effects due to global `node` installations.
 
+WARNING: This is an incubating project. Until is `1.0` released one day, interfaces and DSL may change between `0.x` releases.
+
+
+
 

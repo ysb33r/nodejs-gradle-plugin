@@ -14,12 +14,13 @@
 
 package org.ysb33r.gradle.nodejs.tasks
 
+import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
+import org.gradle.process.ExecResult
 import org.ysb33r.gradle.nodejs.NodeJSExecSpec
 import org.ysb33r.gradle.nodejs.NodeJSExtension
 import org.ysb33r.gradle.nodejs.NpmExtension
-import org.ysb33r.gradle.nodejs.impl.Downloader
 import org.ysb33r.gradle.nodejs.impl.NodeJSExecutor
 
 /** A base class that will provide NodeJS and NPM task extensions.
@@ -67,6 +68,11 @@ class AbstractNodeBaseTask extends DefaultTask {
         this.nodeExtension
     }
 
+    /** Creates a node.js execution specification and poplates it with default
+     * working directory, environment and location of {@code node}.
+     *
+     * @return Pre-configured execution specification.
+     */
     protected NodeJSExecSpec createExecSpec() {
         NodeJSExecSpec execSpec = new NodeJSExecSpec(project)
         NodeJSExecutor.configureSpecFromExtensions(execSpec,nodeExtension)
@@ -74,6 +80,21 @@ class AbstractNodeBaseTask extends DefaultTask {
         execSpec.setEnvironment(this.environment)
         return execSpec
     }
+
+    /** Executes a configured execution specification.
+     *
+     * @param execSpec Configured specification.
+     * @return Execution result
+     */
+    protected ExecResult runExecSpec(NodeJSExecSpec execSpec) {
+        run(execSpec)
+    }
+
+    @CompileDynamic
+    private ExecResult run(NodeJSExecSpec execSpec) {
+        project.nodeexec execSpec
+    }
+
 
     private final NpmExtension npmExtension
     private final NodeJSExtension nodeExtension

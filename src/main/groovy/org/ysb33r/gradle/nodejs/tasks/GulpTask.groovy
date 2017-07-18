@@ -18,6 +18,7 @@ import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import org.gradle.api.logging.LogLevel
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import org.ysb33r.gradle.nodejs.GulpExtension
@@ -76,6 +77,15 @@ class GulpTask extends AbstractNodeBaseTask {
         gulpExtension.gulpFile.absolutePath
     }
 
+    /** The {@cde gulpfile.js} that will be used.
+     *
+     * @return Gulp file.
+     */
+    @InputFile
+    File getGulpFile() {
+        gulpExtension.gulpFile
+    }
+
     @TaskAction
     void exec() {
         NodeJSExecSpec execSpec = createExecSpec()
@@ -96,12 +106,7 @@ class GulpTask extends AbstractNodeBaseTask {
             execSpec.scriptArgs taskToRun
         }
 
-        run execSpec
-    }
-
-    @CompileDynamic
-    private void run(NodeJSExecSpec execSpec) {
-        project.nodeexec execSpec
+        runExecSpec(execSpec)
     }
 
     private String taskToRun
