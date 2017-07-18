@@ -69,7 +69,8 @@ class NodeJSExecutor {
         if(Downloader.OS.windows) {
             [
                 TEMP    : System.getenv('TEMP'),
-                TMP     : System.getenv('TMP')
+                TMP     : System.getenv('TMP'),
+		(Downloader.OS.pathVar) : System.getenv(Downloader.OS.pathVar)
             ] as Map<String,Object>
         } else {
             [:] as Map<String,Object>
