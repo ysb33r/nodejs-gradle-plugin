@@ -1,0 +1,7 @@
+org.ysb33r.gradle.nodejs
+org.ysb33r.gradle.nodejs.impl
+org.ysb33r.gradle.nodejs.impl.gulp
+org.ysb33r.gradle.nodejs.impl.npm
+org.ysb33r.gradle.nodejs.pkgwrapper
+org.ysb33r.gradle.nodejs.plugins
+org.ysb33r.gradle.nodejs.tasks
