@@ -16,7 +16,7 @@ include::{testdir}/NodeJSExtensionSpec.groovy[tags=configure-with-search-path,in
 <2> Supply a path to the `node` executable. This works for people that have Node.js installed in standard locations.
 <3> Tell Gradle to look for `node` (or `node.exe`) in the system search path.
 
-If no executable is configured, then Gradle will attempt to download the version specified in links:{api}/org/ysb33r/gradle/nodejs/NodeJSExtension.html#NODEJS_DEFAULT[NodeJSExtension.NODEJS_DEFAULT]. If Gradle runs on a <<platforms,non-supported platform>> this will fail.
+If no executable is configured, then Gradle will attempt to download the version specified in link:{api}/org/ysb33r/gradle/nodejs/NodeJSExtension.html#NODEJS_DEFAULT[NodeJSExtension.NODEJS_DEFAULT]. If Gradle runs on a <<platforms,non-supported platform>> this will fail.
 
 [[nodeexec]]
 == Using nodeexec
