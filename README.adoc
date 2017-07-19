@@ -4,7 +4,7 @@ I wrote this because I got fed up with what was available to integrate NodeJs & 
 
 You need at least Gradle 3.3 to use this plugin.
 
-Please see the https://ysb33r.github.io/gradle-nodejs-plugin[plugin & API documentation].
+Please see the https://ysb33r.github.io/gradle-nodejs-plugin/[plugin & API documentation].
 
 ////
 == NodeExec
