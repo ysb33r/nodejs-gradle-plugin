@@ -1,6 +1,0 @@
-apply plugin : 'org.ysb33r.nodejs.npm'
-
-task runGradleTest ( type : org.ysb33r.gradle.nodejs.tasks.NpmTask ) {
-    command 'install'
-    cmdArgs 'stringz@0.2.0'
-}

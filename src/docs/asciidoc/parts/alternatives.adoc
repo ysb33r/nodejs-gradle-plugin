@@ -1,9 +1,0 @@
-[[alternatives]]
-== Alternative solutions
-
-This is not the only solution. You might also want to look at
-
-* https://plugins.gradle.org/plugin/com.palantir.npm-run[Palantir NPM plugin] - A Gradle Plugin to create lifecycle tasks that trigger npm run commands.
-* https://plugins.gradle.org/plugin/com.craigburke.client-dependencies[Craig Burke's Client Dependencies plugin]: Install client side dependencies from NPM or Bower by declaring dependencies in build.gradle].
-* https://plugins.gradle.org/plugin/com.moowork.node[Moowork's Node plugin]: Gradle plugin for executing node scripts (supports NPM, Yarn, Grunt and Gulp).
-* https://plugins.gradle.org/plugin/me.taku_k.yarn[Takuya Kuwahara's Yarn plugin].

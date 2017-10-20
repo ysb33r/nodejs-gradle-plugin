@@ -1,4 +1,0 @@
-[submodule "website"]
-	path = website
-	url = https://github.com/ysb33r/nodejs-gradle-plugin.git
-	branch = gh-pages

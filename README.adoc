@@ -1,60 +1,8 @@
 = NodeJS plugin for Gradle
 
-I wrote this because I got fed up with what was available to integrate NodeJs & NPM with Gradle. These plugins have a strong focus on flexibility in order to meet a variety of project needs.
+THIS PROJECT HAS MOVED! It is now at the https://gitlab.com/ysb33rOrg/[Ysb33r Software Foundation].
 
-You need at least Gradle 3.3 to use this plugin.
+The project home is: https://gitlab.com/ysb33rOrg/nodejs-gradle-plugin
 
-Please see the https://ysb33r.github.io/nodejs-gradle-plugin/[plugin & API documentation].
+Documentation is available on: http://ysb33rorg.gitlab.io/nodejs-gradle-plugin/
 
-////
-== NodeExec
-
-A script execution task mostly following the same conventions as [Exec], [JavaExec] and [JRubyExec]
-
-[source,groovy]
-----
-import org.ysb33r.gradle.nodejs.NodeExec
-
-task myScript ( type : NodeExec ) {
-  version '7.10.0' // <1>
-
-  script 'path/to/my/script.js' // <2>
-
-  args 'a', 'b' // <3>
-
-  nodeArgs '--throw-deprecation' // <4>
-}
-----
-<1> You can override the NodeJS version and Gradle will download and cache it for you
-<2> Path to a NodeJS script. The parameter can be anything accepted by `project.file`.
-<3> Arguments to the script
-<4> Arguments for `node` itself
-
-Similar to `project.exec`, `project.javaexec` and `project.jrubyexec`, there is also an
-extension method added to the `Project` object called `nodeExec` which takes the same parameters as `NodeExec`
-
-[source,groovy]
-----
-
-task myScript  {
-
-  nodeExec {
-    version '7.10.0'
-    script 'path/to/my/script.js'
-    args 'a', 'b'
-    nodeArgs '--throw-deprecation'
-  }
-}
-----
-
-== Dependencies
-
-[source.groovy]
-----
-dependencies {
-  npm 'npm:gulp:10.1.1'
-
-  npm packagejson('path/to/package.json')
-}
-----
-////
